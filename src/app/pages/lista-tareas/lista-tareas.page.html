@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi recordatorio</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/nueva-tarea">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<ion-button expand="block" routerLink="/historial">HISTORIAL</ion-button>
+<ion-button expand="block" routerLink="/papelera">PAPELERA</ion-button>
+<ion-button expand="block" routerLink="/calendario">CALENDARIO</ion-button>
+
+  <ion-segment value="todas">
+    <ion-segment-button value="todas">
+      <ion-label>Todas</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="prioridad">
+      <ion-label>Prioridad</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="completadas">
+      <ion-label>Completadas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+ <ion-card *ngFor="let task of tasks; let i = index">
+
+  <ion-card-content style="display:flex; align-items:center; justify-content:space-between;">
+
+    <!-- IZQUIERDA -->
+    <div style="display:flex; align-items:center; gap:10px;">
+
+      <ion-checkbox [(ngModel)]="task.completed"></ion-checkbox>
+
+      <div>
+        <h2 [ngClass]="{ 'tachado': task.completed }">
+          {{ task.title }}
+        </h2>
+
+        <p>{{ task.date }} - {{ task.status }}</p>
+      </div>
+
+    </div>
+
+    <!-- DERECHA -->
+    <div style="display:flex; align-items:center; gap:10px;">
+
+      <ion-badge 
+        [color]="task.priority === 'Alta' ? 'danger' : 
+                 task.priority === 'Media' ? 'warning' : 'success'">
+        {{ task.priority }}
+      </ion-badge>
+
+<ion-button fill="clear" [routerLink]="['/editar-tarea', i]">
+  <ion-icon name="create-outline"></ion-icon>
+</ion-button>
+
+    </div>
+
+  </ion-card-content>
+
+</ion-card>
+
+</ion-content>

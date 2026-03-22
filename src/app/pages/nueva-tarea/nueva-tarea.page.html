@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nueva Tarea</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" [fullscreen]="true">
+
+  <ion-item>
+    <ion-label position="stacked">Título de la Tarea</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-textarea placeholder="Descripción de la tarea..."></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha Límite</ion-label>
+    <ion-datetime presentation="date"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Prioridad</ion-label>
+  </ion-item>
+
+  <ion-radio-group>
+
+    <ion-item>
+      <ion-radio slot="start" value="baja"></ion-radio>
+      <ion-label>Baja</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-radio slot="start" value="media"></ion-radio>
+      <ion-label>Media</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-radio slot="start" value="alta"></ion-radio>
+      <ion-label>Alta</ion-label>
+    </ion-item>
+
+  </ion-radio-group>
+
+  <ion-item>
+    <ion-label>Seleccionar Categoría</ion-label>
+    <ion-select>
+      <ion-select-option>Trabajo</ion-select-option>
+      <ion-select-option>Personal</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" color="success" style="margin-top:20px;">
+    Entrada por Voz
+  </ion-button>
+<ion-button expand="block" color="success" style="margin-top:20px; margin-bottom:40px;">
+  GUARDAR
+</ion-button>
+</ion-content>

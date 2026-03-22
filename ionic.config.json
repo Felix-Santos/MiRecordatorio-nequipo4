@@ -1,0 +1,7 @@
+{
+  "name": "mi-recordatorio",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

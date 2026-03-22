@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Calendario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-datetime (ionChange)="onDateChange($event)"></ion-datetime>
+
+<div *ngIf="selectedDate">
+
+  <h2 style="margin-top:15px;">
+    Tareas del día
+  </h2>
+
+  <ion-card *ngFor="let task of getTasksByDate()">
+    <ion-card-content>
+
+      <h3>{{ task.title }}</h3>
+
+      <ion-badge color="danger">
+        {{ task.priority }}
+      </ion-badge>
+
+    </ion-card-content>
+  </ion-card>
+
+</div>
+
+  
+</ion-content>

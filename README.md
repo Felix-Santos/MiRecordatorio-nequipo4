@@ -1,14 +1,12 @@
 # 📱 Mi Recordatorio – Equipo 4
 
-## 📌 Descripción General
+##  Descripción General
 
 **Mi Recordatorio** es una aplicación móvil desarrollada con el objetivo de facilitar la gestión de tareas académicas y personales. La aplicación permite a los usuarios organizar sus actividades de manera eficiente, priorizando tareas, estableciendo fechas y llevando un control claro de su estado.
 
-Este proyecto ha sido desarrollado como parte de una actividad académica, aplicando buenas prácticas de desarrollo de software, diseño de interfaces móviles y organización de proyectos.
-
 ---
 
-## 🎯 Objetivo de la Aplicación
+## Objetivo de la Aplicación
 
 Proporcionar a los usuarios una herramienta intuitiva y funcional que les permita:
 
@@ -23,26 +21,22 @@ Proporcionar a los usuarios una herramienta intuitiva y funcional que les permit
 
 Hasta el momento, la aplicación cuenta con las siguientes funcionalidades:
 
-### 📝 Gestión de Tareas
-- Creación de nuevas tareas
-- Edición de tareas existentes
-- Eliminación de tareas
-- Marcado de tareas como completadas
-
-### 📊 Organización
-- Clasificación por prioridad (Alta, Media, Baja)
-- Visualización del estado de cada tarea (Pendiente / Completada)
-- Segmentación de tareas (todas, prioridad, completadas)
-
-### 🗂️ Módulos adicionales
-- 📅 **Calendario:** selección de fechas para tareas
-- 🗑️ **Papelera:** gestión de tareas eliminadas (recuperar o eliminar definitivamente)
-- 📜 **Historial:** registro de acciones realizadas en la aplicación
-
-### 🔐 Acceso
-- Pantalla de inicio de sesión (interfaz implementada)
-
----
+Pantallas de la aplicación.
+La aplicación contará con las siguientes pantallas principales, diseñadas para ofrecer una experiencia de usuario clara, intuitiva y eficiente:
+Pantalla de lista de tareas.
+Será la pantalla principal de la aplicación, donde el usuario podrá visualizar todas las tareas registradas junto con su prioridad, fecha límite y estado. Además, permitirá acceder rápidamente a funciones como agregar, editar, completar o eliminar tareas mediante botones e iconos interactivos.
+Pantalla para agregar tarea.
+Permitirá registrar nuevas tareas mediante un formulario estructurado que incluirá campos como descripción, fecha límite, prioridad y categoría. También incorporará la opción de entrada por voz para facilitar el registro rápido de información.
+Pantalla para editar tarea.
+Permitirá modificar la información de una tarea previamente creada, incluyendo la actualización de su contenido, cambio de prioridad o categoría, así como la opción de eliminarla o marcarla como completada.
+Pantalla de calendario.
+Permitirá visualizar las tareas organizadas según su fecha límite dentro de una estructura de calendario, facilitando la planificación y el seguimiento temporal de las actividades.
+Pantalla de papelera de tareas
+Permitirá visualizar las tareas eliminadas temporalmente, brindando la posibilidad de restaurarlas o eliminarlas de forma definitiva, evitando pérdidas accidentales de información.
+Pantalla de historial.
+Mostrará un registro detallado de las acciones realizadas sobre las tareas, tales como creación, modificación, eliminación y finalización, permitiendo al usuario llevar un control de sus actividades.
+Pantalla de inicio de sesión.
+Permitirá al usuario autenticarse mediante el ingreso de credenciales, garantizando el acceso seguro a su información personal dentro de la aplicación.
 
 ## 🧱 Estado Actual del Proyecto
 
@@ -61,15 +55,19 @@ El proyecto se encuentra en una fase funcional intermedia, donde:
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas.
 
-El desarrollo de la aplicación se ha realizado utilizando las siguientes tecnologías:
+El desarrollo de la aplicación se ha realizado utilizando un conjunto de tecnologías modernas orientadas al desarrollo de aplicaciones móviles híbridas:
 
-- **Ionic Framework** – Desarrollo de aplicaciones móviles híbridas
-- **Angular** – Estructura y lógica de la aplicación
-- **TypeScript** – Lenguaje principal de programación
-- **HTML5** – Estructura de las interfaces
-- **CSS / SCSS** – Estilos y diseño visual
+- **Ionic Framework** – Framework principal para la construcción de interfaces móviles multiplataforma.
+- **Angular** – Estructura y arquitectura de la aplicación, manejo de componentes y navegación.
+- **TypeScript** – Lenguaje de programación tipado utilizado para la lógica del sistema.
+- **HTML5** – Estructura de las vistas de la aplicación.
+- **SCSS (CSS avanzado)** – Diseño visual, estilos personalizados y responsividad.
+- **Capacitor** – Plataforma que permite la ejecución de la aplicación como app móvil nativa (Android/iOS).
+- **Node.js** – Entorno de ejecución utilizado para la gestión de dependencias del proyecto.
+- **NPM** – Gestor de paquetes para instalar y administrar librerías.
+- **Ionic CLI** – Herramienta de línea de comandos utilizada para crear, ejecutar y construir la aplicación.
 
 ---
 
@@ -78,7 +76,10 @@ El desarrollo de la aplicación se ha realizado utilizando las siguientes tecnol
 **Equipo 4**
 
 - Félix María Santos García  
-- (Agregar nombres de los demás integrantes)
+- Juan Luis Dias.
+- William Antonio.
+- Eric Arturo.
+- Leonardo Terrero.
 
 ---
 

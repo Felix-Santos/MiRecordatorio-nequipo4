@@ -6,26 +6,28 @@
     <ion-title>Papelera</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-card>
-  <ion-card-content>
+  <ion-list *ngIf="deletedTasks.length > 0; else noDeletedTasks">
+    <ion-item *ngFor="let task of deletedTasks">
+      <ion-label>
+        <h2>{{ task.title }}</h2>
+        <p>Eliminada: {{ formatDeletedDate(task.deletedAt!) }}</p>
+        <p *ngIf="task.description">{{ task.description }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'success'">
+        {{ task.priority }}
+      </ion-badge>
+      <ion-button slot="end" fill="clear" color="success" (click)="restoreTask(task)">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button slot="end" fill="clear" color="danger" (click)="permanentlyDeleteTask(task)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
 
-    <h3>Enviar informe mensual</h3>
-    <p>Descartado hace 5 minutos</p>
-
-    <ion-badge color="success">Baja</ion-badge>
-
-  </ion-card-content>
-</ion-card>
-<ion-content class="ion-padding">
-
-  <ion-item>
-    <ion-label>
-      <h2>Tarea eliminada</h2>
-      <p>Se puede recuperar</p>
-    </ion-label>
-
-    <ion-button color="success">Restaurar</ion-button>
-    <ion-button color="danger">Eliminar</ion-button>
-  </ion-item>
-
-</ion-content>
+  <ng-template #noDeletedTasks>
+    <ion-text color="medium" class="no-deleted">
+      <p>No hay tareas eliminadas.</p>
+      <p>Las tareas eliminadas aparecerán aquí para su recuperación.</p>
+    </ion-text>
+  </ng-template>

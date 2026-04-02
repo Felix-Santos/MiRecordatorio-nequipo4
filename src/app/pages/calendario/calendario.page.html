@@ -9,27 +9,37 @@
 
 <ion-content class="ion-padding">
 
-  <ion-datetime (ionChange)="onDateChange($event)"></ion-datetime>
+  <ion-datetime [value]="selectedDate" (ionChange)="onDateChange($event)" presentation="date"></ion-datetime>
 
-<div *ngIf="selectedDate">
+  <div *ngIf="selectedDate">
+    <h2 style="margin-top:15px;">
+      Tareas para {{ formatDate(selectedDate) }}
+    </h2>
 
-  <h2 style="margin-top:15px;">
-    Tareas del día
-  </h2>
+    <ion-list *ngIf="selectedDateTasks.length > 0; else noTasks">
+      <ion-item *ngFor="let task of selectedDateTasks">
+        <ion-label>
+          <h3>{{ task.title }}</h3>
+          <p *ngIf="task.description">{{ task.description }}</p>
+          <p>{{ task.status }}</p>
+        </ion-label>
+        <ion-checkbox
+          slot="start"
+          [checked]="task.completed"
+          (ionChange)="toggleComplete(task)">
+        </ion-checkbox>
+        <ion-badge slot="end" [color]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'success'">
+          {{ task.priority }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
 
-  <ion-card *ngFor="let task of getTasksByDate()">
-    <ion-card-content>
-
-      <h3>{{ task.title }}</h3>
-
-      <ion-badge color="danger">
-        {{ task.priority }}
-      </ion-badge>
-
-    </ion-card-content>
-  </ion-card>
-
-</div>
+    <ng-template #noTasks>
+      <ion-text color="medium" class="no-tasks">
+        <p>No hay tareas programadas para esta fecha.</p>
+      </ion-text>
+    </ng-template>
+  </div>
 
   
 </ion-content>

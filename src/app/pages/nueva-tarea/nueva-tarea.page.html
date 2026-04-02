@@ -10,54 +10,38 @@
 
   <ion-item>
     <ion-label position="stacked">Título de la Tarea</ion-label>
-    <ion-input></ion-input>
+    <ion-input [(ngModel)]="newTask.title" required></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Descripción</ion-label>
-    <ion-textarea placeholder="Descripción de la tarea..."></ion-textarea>
+    <ion-textarea [(ngModel)]="newTask.description" placeholder="Descripción de la tarea..."></ion-textarea>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Fecha Límite</ion-label>
-    <ion-datetime presentation="date"></ion-datetime>
+    <ion-datetime
+      [(ngModel)]="newTask.date"
+      presentation="date"
+      [min]="minDate"
+      locale="es-ES"
+      required>
+    </ion-datetime>
   </ion-item>
 
   <ion-item>
     <ion-label>Prioridad</ion-label>
-  </ion-item>
-
-  <ion-radio-group>
-
-    <ion-item>
-      <ion-radio slot="start" value="baja"></ion-radio>
-      <ion-label>Baja</ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-radio slot="start" value="media"></ion-radio>
-      <ion-label>Media</ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-radio slot="start" value="alta"></ion-radio>
-      <ion-label>Alta</ion-label>
-    </ion-item>
-
-  </ion-radio-group>
-
-  <ion-item>
-    <ion-label>Seleccionar Categoría</ion-label>
-    <ion-select>
-      <ion-select-option>Trabajo</ion-select-option>
-      <ion-select-option>Personal</ion-select-option>
+    <ion-select [(ngModel)]="newTask.priority">
+      <ion-select-option value="Baja">Baja</ion-select-option>
+      <ion-select-option value="Media">Media</ion-select-option>
+      <ion-select-option value="Alta">Alta</ion-select-option>
     </ion-select>
   </ion-item>
 
-  <ion-button expand="block" color="success" style="margin-top:20px;">
+  <ion-button expand="block" color="primary" style="margin-top:20px;" (click)="voiceInput()">
     Entrada por Voz
   </ion-button>
-<ion-button expand="block" color="success" style="margin-top:20px; margin-bottom:40px;">
-  GUARDAR
-</ion-button>
+  <ion-button expand="block" color="success" style="margin-top:20px; margin-bottom:40px;" (click)="saveTask()">
+    GUARDAR
+  </ion-button>
 </ion-content>

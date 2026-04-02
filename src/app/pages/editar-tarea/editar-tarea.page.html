@@ -9,22 +9,40 @@
 
 <ion-content class="ion-padding">
 
-  <ion-item>
+  <ion-item *ngIf="tarea">
     <ion-label position="floating">Título</ion-label>
     <ion-input [(ngModel)]="tarea.title"></ion-input>
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="tarea">
     <ion-label position="floating">Descripción</ion-label>
     <ion-textarea [(ngModel)]="tarea.description"></ion-textarea>
   </ion-item>
 
-  <ion-button expand="block" color="success">
+  <ion-item *ngIf="tarea">
+    <ion-label position="floating">Fecha</ion-label>
+    <ion-datetime [(ngModel)]="tarea.date" displayFormat="DD/MM/YYYY"></ion-datetime>
+  </ion-item>
+
+  <ion-item *ngIf="tarea">
+    <ion-label>Prioridad</ion-label>
+    <ion-select [(ngModel)]="tarea.priority">
+      <ion-select-option value="Alta">Alta</ion-select-option>
+      <ion-select-option value="Media">Media</ion-select-option>
+      <ion-select-option value="Baja">Baja</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" color="success" *ngIf="tarea" (click)="saveChanges()">
     Guardar cambios
   </ion-button>
 
-  <ion-button expand="block" color="danger">
+  <ion-button expand="block" color="danger" *ngIf="tarea" (click)="deleteTask()">
     Eliminar
   </ion-button>
+
+  <ion-text *ngIf="!tarea" color="danger">
+    Tarea no encontrada
+  </ion-text>
 
 </ion-content>

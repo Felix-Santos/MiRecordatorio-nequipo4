@@ -6,23 +6,49 @@
 
 <ion-content class="ion-padding">
 
-  <ion-item>
-    <ion-label position="floating">Correo</ion-label>
-    <ion-input></ion-input>
+  <ion-item *ngIf="!isRegisterMode">
+    <ion-label position="floating">Usuario</ion-label>
+    <ion-input [(ngModel)]="loginData.username" required></ion-input>
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="isRegisterMode">
+    <ion-label position="floating">Usuario</ion-label>
+    <ion-input [(ngModel)]="registerData.username" required></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="isRegisterMode">
+    <ion-label position="floating">Correo Electrónico</ion-label>
+    <ion-input [(ngModel)]="registerData.email" type="email" required></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="!isRegisterMode">
     <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password"></ion-input>
+    <ion-input [(ngModel)]="loginData.password" type="password" required></ion-input>
   </ion-item>
 
-  <ion-button expand="block" color="success">
-  Iniciar Sesión
-</ion-button>
+  <ion-item *ngIf="isRegisterMode">
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="registerData.password" type="password" required></ion-input>
+  </ion-item>
 
+  <ion-text color="danger" *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </ion-text>
 
-<ion-button expand="block" fill="outline" color="success">
-  Registrarse
-</ion-button>
+  <ion-button expand="block" color="success" *ngIf="!isRegisterMode" (click)="onLogin()">
+    Iniciar Sesión
+  </ion-button>
+
+  <ion-button expand="block" color="success" *ngIf="isRegisterMode" (click)="onRegister()">
+    Registrarse
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" color="success" (click)="toggleMode()">
+    {{ isRegisterMode ? '¿Ya tienes cuenta? Inicia Sesión' : '¿No tienes cuenta? Regístrate' }}
+  </ion-button>
+
+  <ion-text color="medium" class="demo-info">
+    <p><strong>Demo:</strong> Usuario: admin, Contraseña: 123456</p>
+  </ion-text>
 
 </ion-content>

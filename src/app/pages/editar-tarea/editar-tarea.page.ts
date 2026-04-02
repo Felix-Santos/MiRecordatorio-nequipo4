@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TaskService } from '../../services/task.service';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-editar-tarea',
@@ -13,30 +15,37 @@ import { FormsModule } from '@angular/forms';
 })
 export class EditarTareaPage implements OnInit {
 
-  tarea: any;
+  tarea: Task | undefined;
 
-  tareas = [
-    {
-      title: "Preparar presentación",
-      date: "25/05/2022",
-      status: "Pendiente",
-      priority: "Alta",
-      completed: false
-    },
-    {
-      title: "Estudiar Ionic",
-      date: "26/05/2022",
-      status: "Pendiente",
-      priority: "Media",
-      completed: false
-    }
-  ];
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private taskService: TaskService
+  ) {}
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {
+  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.tarea = this.tareas[Number(id)];
+    if (!id || isNaN(Number(id))) {
+      this.router.navigate(['/lista-tareas']);
+      return;
+    }
+    this.tarea = this.taskService.getTaskById(Number(id));
+    if (!this.tarea) {
+      this.router.navigate(['/lista-tareas']);
+    }
   }
 
+  saveChanges(): void {
+    if (this.tarea) {
+      this.taskService.updateTask(this.tarea.id, this.tarea);
+      this.router.navigate(['/lista-tareas']);
+    }
+  }
+
+  deleteTask(): void {
+    if (this.tarea) {
+      this.taskService.deleteTask(this.tarea.id);
+      this.router.navigate(['/lista-tareas']);
+    }
+  }
 }

@@ -6,6 +6,9 @@
     <ion-title>Mi recordatorio</ion-title>
 
     <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
       <ion-button routerLink="/nueva-tarea">
         <ion-icon name="add-circle-outline"></ion-icon>
       </ion-button>
@@ -19,41 +22,41 @@
 <ion-button expand="block" routerLink="/papelera">PAPELERA</ion-button>
 <ion-button expand="block" routerLink="/calendario">CALENDARIO</ion-button>
 
-  <ion-segment value="todas">
-    <ion-segment-button value="todas">
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="all">
       <ion-label>Todas</ion-label>
     </ion-segment-button>
 
-    <ion-segment-button value="prioridad">
-      <ion-label>Prioridad</ion-label>
+    <ion-segment-button value="priority">
+      <ion-label>Prioridad Alta</ion-label>
     </ion-segment-button>
 
-    <ion-segment-button value="completadas">
+    <ion-segment-button value="completed">
       <ion-label>Completadas</ion-label>
     </ion-segment-button>
   </ion-segment>
 
- <ion-card *ngFor="let task of tasks; let i = index">
+ <ion-card *ngFor="let task of tasks">
 
-  <ion-card-content style="display:flex; align-items:center; justify-content:space-between;">
+  <ion-card-content class="task-card-content">
 
     <!-- IZQUIERDA -->
-    <div style="display:flex; align-items:center; gap:10px;">
+    <div class="task-left">
 
-      <ion-checkbox [(ngModel)]="task.completed"></ion-checkbox>
+      <ion-checkbox [checked]="task.completed" (ionChange)="toggleComplete(task)"></ion-checkbox>
 
       <div>
         <h2 [ngClass]="{ 'tachado': task.completed }">
           {{ task.title }}
         </h2>
 
-        <p>{{ task.date }} - {{ task.status }}</p>
+        <p>{{ task.date | date:'shortDate' }} - {{ task.status }}</p>
       </div>
 
     </div>
 
     <!-- DERECHA -->
-    <div style="display:flex; align-items:center; gap:10px;">
+    <div class="task-right">
 
       <ion-badge 
         [color]="task.priority === 'Alta' ? 'danger' : 
@@ -61,9 +64,13 @@
         {{ task.priority }}
       </ion-badge>
 
-<ion-button fill="clear" [routerLink]="['/editar-tarea', i]">
-  <ion-icon name="create-outline"></ion-icon>
-</ion-button>
+      <ion-button fill="clear" [routerLink]="['/editar-tarea', task.id]">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" color="danger" (click)="deleteTask(task)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
 
     </div>
 

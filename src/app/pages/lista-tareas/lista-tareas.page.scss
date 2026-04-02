@@ -39,3 +39,21 @@ ion-segment-button.ion-activated {
   color: #2e7d32;
   font-weight: bold;
 }
+
+.task-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

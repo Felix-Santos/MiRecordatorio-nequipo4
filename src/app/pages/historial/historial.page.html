@@ -4,16 +4,34 @@
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
     <ion-title>Historial</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearHistory()" color="danger">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-list *ngIf="history.length > 0; else noHistory">
+    <ion-item *ngFor="let entry of history">
+      <ion-label>
+        <h2>{{ getActionDescription(entry.action) }}</h2>
+        <p>{{ formatDate(entry.timestamp) }}</p>
+        <p *ngIf="entry.newValue?.title" color="primary">
+          Tarea: {{ entry.newValue.title }}
+        </p>
+      </ion-label>
+      <ion-badge slot="end" [color]="getActionColor(entry.action)">
+        {{ getActionDescription(entry.action) }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
 
-  <ion-item>
-    <ion-label>
-      <h2>Tarea creada</h2>
-      <p>Hoy - 10:00 AM</p>
-    </ion-label>
-  </ion-item>
-
+  <ng-template #noHistory>
+    <ion-text color="medium" class="no-history">
+      <p>No hay acciones registradas aún.</p>
+      <p>Las acciones sobre tus tareas aparecerán aquí.</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

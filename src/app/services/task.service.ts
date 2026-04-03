@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Task, TaskHistory } from '../models/task.model';
 import { AuthService } from './auth.service';
 
@@ -10,7 +11,9 @@ export class TaskService {
   private tasks: Task[] = [];
   private history: TaskHistory[] = [];
   private tasksSubject = new BehaviorSubject<Task[]>([]);
+  private deletedTasksSubject = new BehaviorSubject<Task[]>([]);
   public tasks$ = this.tasksSubject.asObservable();
+  public deletedTasks$ = this.deletedTasksSubject.asObservable();
 
   private readonly TASKS_KEY = 'tasks';
   private readonly HISTORY_KEY = 'taskHistory';
@@ -54,9 +57,12 @@ export class TaskService {
     const currentUser = this.authService.getCurrentUser();
     if (currentUser) {
       const userTasks = this.tasks.filter(task => task.userId === currentUser.id && !task.deletedAt);
+      const deletedTasks = this.tasks.filter(task => task.userId === currentUser.id && task.deletedAt);
       this.tasksSubject.next(userTasks);
+      this.deletedTasksSubject.next(deletedTasks);
     } else {
       this.tasksSubject.next([]);
+      this.deletedTasksSubject.next([]);
     }
   }
 
@@ -76,7 +82,11 @@ export class TaskService {
         let filteredTasks = tasks;
         switch (segment) {
           case 'priority':
-            filteredTasks = tasks.filter(task => task.priority === 'Alta');
+            // Ordenar todas las tareas por prioridad: Alta -> Media -> Baja
+            filteredTasks = [...tasks].sort((a, b) => {
+              const priorityOrder = { 'Alta': 0, 'Media': 1, 'Baja': 2 };
+              return priorityOrder[a.priority] - priorityOrder[b.priority];
+            });
             break;
           case 'completed':
             filteredTasks = tasks.filter(task => task.completed);
@@ -93,35 +103,26 @@ export class TaskService {
    * Obtiene tareas para calendario (por fecha)
    */
   getTasksForCalendar(): Observable<{ [date: string]: Task[] }> {
-    return new Observable(observer => {
-      this.tasks$.subscribe(tasks => {
+    return this.tasks$.pipe(
+      map(tasks => {
         const calendarTasks: { [date: string]: Task[] } = {};
         tasks.forEach(task => {
-          if (!calendarTasks[task.date]) {
-            calendarTasks[task.date] = [];
+          const taskDate = new Date(task.date).toISOString().split('T')[0];
+          if (!calendarTasks[taskDate]) {
+            calendarTasks[taskDate] = [];
           }
-          calendarTasks[task.date].push(task);
+          calendarTasks[taskDate].push(task);
         });
-        observer.next(calendarTasks);
-      });
-    });
+        return calendarTasks;
+      })
+    );
   }
 
   /**
    * Obtiene tareas eliminadas (papelera)
    */
   getDeletedTasks(): Observable<Task[]> {
-    return new Observable(observer => {
-      const currentUser = this.authService.getCurrentUser();
-      if (currentUser) {
-        const deletedTasks = this.tasks.filter(task =>
-          task.userId === currentUser.id && task.deletedAt
-        );
-        observer.next(deletedTasks);
-      } else {
-        observer.next([]);
-      }
-    });
+    return this.deletedTasks$;
   }
 
   /**

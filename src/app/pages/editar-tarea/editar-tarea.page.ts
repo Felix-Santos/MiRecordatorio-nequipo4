@@ -16,6 +16,7 @@ import { Task } from '../../models/task.model';
 export class EditarTareaPage implements OnInit {
 
   tarea: Task | undefined;
+  minDate = new Date().toISOString().split('T')[0]; // Fecha actual como mínimo
 
   constructor(
     private route: ActivatedRoute,

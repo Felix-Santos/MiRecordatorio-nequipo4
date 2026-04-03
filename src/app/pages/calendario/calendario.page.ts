@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.model';
 import { Subscription } from 'rxjs';
@@ -10,11 +11,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './calendario.page.html',
   styleUrls: ['./calendario.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class CalendarioPage implements OnInit, OnDestroy {
   calendarTasks: { [date: string]: Task[] } = {};
   selectedDate: string = new Date().toISOString().split('T')[0];
+  minDate: string = new Date().toISOString().split('T')[0];
   selectedDateTasks: Task[] = [];
   private subscription: Subscription = new Subscription();
 

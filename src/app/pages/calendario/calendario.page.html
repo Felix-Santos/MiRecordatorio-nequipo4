@@ -9,7 +9,16 @@
 
 <ion-content class="ion-padding">
 
-  <ion-datetime [value]="selectedDate" (ionChange)="onDateChange($event)" presentation="date"></ion-datetime>
+  <ion-datetime
+    [(ngModel)]="selectedDate"
+    (ionChange)="onDateChange($event)"
+    presentation="date"
+    locale="es-ES"
+    picker-format="DD MM YYYY"
+    display-format="DD/MM/YYYY"
+    [min]="minDate"
+    show-default-buttons="true">
+  </ion-datetime>
 
   <div *ngIf="selectedDate">
     <h2 style="margin-top:15px;">

@@ -16,10 +16,7 @@ export class PapeleraPage implements OnInit, OnDestroy {
   deletedTasks: Task[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private taskService: TaskService,
-    private alertCtrl: AlertController
-  ) {}
+  constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
     // Cargar tareas eliminadas del usuario
@@ -40,28 +37,10 @@ export class PapeleraPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Elimina permanentemente una tarea con confirmación
+   * Elimina permanentemente una tarea
    */
-  async permanentlyDeleteTask(task: Task): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      header: 'Eliminar definitivamente',
-      message: `¿Seguro que deseas eliminar la tarea "${task.title}" de forma permanente?`,
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Eliminar',
-          role: 'confirm',
-          handler: () => {
-            this.taskService.permanentlyDeleteTask(task.id);
-          }
-        }
-      ]
-    });
-
-    await alert.present();
+  permanentlyDeleteTask(task: Task): void {
+    this.taskService.permanentlyDeleteTask(task.id);
   }
 
   /**

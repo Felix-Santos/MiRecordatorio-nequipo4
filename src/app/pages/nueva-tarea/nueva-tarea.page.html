@@ -22,19 +22,21 @@
     <ion-label position="stacked">Fecha Límite</ion-label>
     <ion-datetime
       [(ngModel)]="newTask.date"
-      presentation="date"
+      presentation="date-time"
       [min]="minDate"
       locale="es-ES"
-      required>
+      display-format="DD/MM/YYYY HH:mm"
+      picker-format="DD MM YYYY"
+      show-default-buttons="true">
     </ion-datetime>
   </ion-item>
 
   <ion-item>
     <ion-label>Prioridad</ion-label>
-    <ion-select [(ngModel)]="newTask.priority">
-      <ion-select-option value="Baja">Baja</ion-select-option>
-      <ion-select-option value="Media">Media</ion-select-option>
-      <ion-select-option value="Alta">Alta</ion-select-option>
+    <ion-select [(ngModel)]="newTask.priority" translate="no">
+      <ion-select-option value="Baja" translate="no">Baja</ion-select-option>
+      <ion-select-option value="Media" translate="no">Media</ion-select-option>
+      <ion-select-option value="Alta" translate="no">Alta</ion-select-option>
     </ion-select>
   </ion-item>
 

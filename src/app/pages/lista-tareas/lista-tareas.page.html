@@ -28,7 +28,7 @@
     </ion-segment-button>
 
     <ion-segment-button value="priority">
-      <ion-label>Prioridad Alta</ion-label>
+      <ion-label>Por Prioridad</ion-label>
     </ion-segment-button>
 
     <ion-segment-button value="completed">
@@ -50,7 +50,8 @@
           {{ task.title }}
         </h2>
 
-        <p>{{ task.date | date:'shortDate' }} - {{ task.status }}</p>
+        <p>{{ task.date | date:'short' }} - {{ task.status }}</p>
+        <p *ngIf="task.description" class="task-description">{{ task.description }}</p>
       </div>
 
     </div>

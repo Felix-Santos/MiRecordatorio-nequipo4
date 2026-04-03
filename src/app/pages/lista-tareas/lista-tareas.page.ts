@@ -74,10 +74,14 @@ export class ListaTareasPage implements OnInit, OnDestroy {
     const alert = await this.alertCtrl.create({
       header: 'Confirmar eliminación',
       message: `¿Estás seguro que deseas eliminar la tarea "${task.title}"?`,
+      backdropDismiss: false,
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel'
+          role: 'cancel',
+          handler: () => {
+            // El alert se cierra automáticamente con role: 'cancel'
+          }
         },
         {
           text: 'Eliminar',

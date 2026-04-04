@@ -57,3 +57,10 @@ ion-segment-button.ion-activated {
   align-items: center;
   gap: 10px;
 }
+
+/* Mejorar visibilidad del checkbox cuando no está marcado */
+.task-left ion-checkbox {
+  --border-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.65);
+  --checkbox-background: var(--ion-item-background, #ffffff);
+  --size: 20px;
+}

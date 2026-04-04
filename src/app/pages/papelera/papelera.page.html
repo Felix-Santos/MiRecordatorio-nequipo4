@@ -3,18 +3,18 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
-    <ion-title>Papelera</ion-title>
+    <ion-title>{{ 'TRASH.TITLE' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
   <ion-list *ngIf="deletedTasks.length > 0; else noDeletedTasks">
     <ion-item *ngFor="let task of deletedTasks">
       <ion-label>
         <h2>{{ task.title }}</h2>
-        <p>Eliminada: {{ formatDeletedDate(task.deletedAt!) }}</p>
+        <p>{{ 'TRASH.DELETED_AT' | translate:{ date: formatDeletedDate(task.deletedAt!) } }}</p>
         <p *ngIf="task.description">{{ task.description }}</p>
       </ion-label>
       <ion-badge slot="end" [color]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'success'">
-        {{ task.priority }}
+        {{ ('PRIORITY.' + (task.priority || '').toUpperCase()) | translate }}
       </ion-badge>
       <ion-button slot="end" fill="clear" color="success" (click)="restoreTask(task)">
         <ion-icon name="refresh-outline"></ion-icon>
@@ -26,8 +26,9 @@
   </ion-list>
 
   <ng-template #noDeletedTasks>
-    <ion-text color="medium" class="no-deleted">
-      <p>No hay tareas eliminadas.</p>
-      <p>Las tareas eliminadas aparecerán aquí para su recuperación.</p>
-    </ion-text>
+    <div class="no-deleted empty-trash">
+      <ion-icon name="trash-outline" class="empty-icon"></ion-icon>
+      <p class="title">{{ 'TRASH.NO_TASKS' | translate }}</p>
+      <p class="muted">{{ 'TRASH.INFO' | translate }}</p>
+    </div>
   </ng-template>

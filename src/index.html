@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" translate="no">
 
 <head>
   <meta charset="utf-8" />
+  <meta name="google" content="notranslate" />
+  <script>
+    (function() {
+      try {
+        var lang = localStorage.getItem('app_language') || 'es';
+        var htmlLang = lang === 'en' ? 'en-US' : 'es-ES';
+        document.documentElement.lang = htmlLang;
+        document.documentElement.setAttribute('translate', 'no');
+      } catch (e) {
+        /* ignore */
+      }
+    })();
+  </script>
   <title>Ionic App</title>
 
   <base href="/" />

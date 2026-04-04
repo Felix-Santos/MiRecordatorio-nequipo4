@@ -4,13 +4,16 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
+import { SettingsService } from '../../services/settings.service';
+import { TranslateService } from '../../services/translate.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-nueva-tarea',
   templateUrl: './nueva-tarea.page.html',
   styleUrls: ['./nueva-tarea.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, TranslatePipe]
 })
 export class NuevaTareaPage {
   newTask = {
@@ -20,25 +23,34 @@ export class NuevaTareaPage {
     priority: 'Baja' as 'Alta' | 'Media' | 'Baja' // Cambiar default a 'Baja'
   };
 
-  minDate = new Date().toISOString().split('T')[0]; // Fecha actual como mínimo
+  // use start of day ISO so users can pick any hour of today
+  minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString();
+  locale: string = 'es-ES';
 
   constructor(
     private taskService: TaskService,
     private router: Router,
-    private toastCtrl: ToastController
-  ) {}
+    private toastCtrl: ToastController,
+    private settings: SettingsService,
+    private translate: TranslateService
+  ) {
+    this.settings.language$.subscribe(l => this.locale = l === 'en' ? 'en-US' : 'es-ES');
+  }
 
   saveTask(): void {
     if (this.newTask.title.trim() && this.newTask.date) {
+      // normalizar la fecha a ISO para evitar errores de parsing/locale
+      const normalizedDate = new Date(this.newTask.date).toISOString();
       this.taskService.addTask({
         ...this.newTask,
+        date: normalizedDate,
         status: 'Pendiente',
         completed: false
       });
-      this.showToast('Tarea guardada exitosamente', 'success');
+      this.showToast(this.translate.translate('NEW.TOAST_SAVED'), 'success');
       this.router.navigate(['/lista-tareas']);
     } else {
-      this.showToast('Por favor complete título y fecha', 'danger');
+      this.showToast(this.translate.translate('NEW.TOAST_FILL'), 'danger');
     }
   }
 
@@ -52,8 +64,4 @@ export class NuevaTareaPage {
     await toast.present();
   }
 
-  voiceInput(): void {
-    // Placeholder for voice input functionality
-    alert('Funcionalidad de entrada por voz próximamente disponible');
-  }
 }

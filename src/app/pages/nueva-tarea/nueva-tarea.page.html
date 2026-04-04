@@ -1,21 +1,21 @@
 <ion-header>
-  <ion-toolbar color="success">
+    <ion-toolbar color="success">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
-    <ion-title>Nueva Tarea</ion-title>
+    <ion-title>{{ 'NEW.TITLE' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding" [fullscreen]="true">
 
   <ion-item>
-    <ion-label position="stacked">Título de la Tarea</ion-label>
+    <ion-label position="stacked">{{ 'NEW.TASK_TITLE_LABEL' | translate }}</ion-label>
     <ion-input [(ngModel)]="newTask.title" required></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Descripción</ion-label>
-    <ion-textarea [(ngModel)]="newTask.description" placeholder="Descripción de la tarea..."></ion-textarea>
+    <ion-label position="stacked">{{ 'NEW.DESCRIPTION_LABEL' | translate }}</ion-label>
+    <ion-textarea [(ngModel)]="newTask.description" placeholder="{{ 'NEW.DESCRIPTION_PLACEHOLDER' | translate }}"></ion-textarea>
   </ion-item>
 
   <ion-item>
@@ -24,26 +24,23 @@
       [(ngModel)]="newTask.date"
       presentation="date-time"
       [min]="minDate"
-      locale="es-ES"
+      [locale]="locale"
       display-format="DD/MM/YYYY HH:mm"
-      picker-format="DD MM YYYY"
+      picker-format="DD MM YYYY HH mm"
       show-default-buttons="true">
     </ion-datetime>
   </ion-item>
 
   <ion-item>
-    <ion-label>Prioridad</ion-label>
-    <ion-select [(ngModel)]="newTask.priority" translate="no">
-      <ion-select-option value="Baja" translate="no">Baja</ion-select-option>
-      <ion-select-option value="Media" translate="no">Media</ion-select-option>
-      <ion-select-option value="Alta" translate="no">Alta</ion-select-option>
+    <ion-label>{{ 'NEW.PRIORITY_LABEL' | translate }}</ion-label>
+    <ion-select [(ngModel)]="newTask.priority">
+      <ion-select-option value="Baja">{{ 'PRIORITY.BAJA' | translate }}</ion-select-option>
+      <ion-select-option value="Media">{{ 'PRIORITY.MEDIA' | translate }}</ion-select-option>
+      <ion-select-option value="Alta">{{ 'PRIORITY.ALTA' | translate }}</ion-select-option>
     </ion-select>
   </ion-item>
 
-  <ion-button expand="block" color="primary" style="margin-top:20px;" (click)="voiceInput()">
-    Entrada por Voz
-  </ion-button>
   <ion-button expand="block" color="success" style="margin-top:20px; margin-bottom:40px;" (click)="saveTask()">
-    GUARDAR
+    {{ 'BUTTON.SAVE' | translate }}
   </ion-button>
 </ion-content>

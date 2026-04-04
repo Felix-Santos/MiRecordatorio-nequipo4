@@ -4,22 +4,30 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
 import { TaskHistory } from '../../models/task.model';
 import { Subscription } from 'rxjs';
+import { SettingsService } from '../../services/settings.service';
+import { TranslateService } from '../../services/translate.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.page.html',
   styleUrls: ['./historial.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule]
+  imports: [IonicModule, CommonModule, TranslatePipe]
 })
 export class HistorialPage implements OnInit, OnDestroy {
   history: TaskHistory[] = [];
   private subscription: Subscription = new Subscription();
+  locale: string = 'es-ES';
 
   constructor(
     private taskService: TaskService,
-    private alertCtrl: AlertController
-  ) {}
+    private alertCtrl: AlertController,
+    private settings: SettingsService,
+    private translate: TranslateService
+  ) {
+    this.settings.language$.subscribe(l => this.locale = l === 'en' ? 'en-US' : 'es-ES');
+  }
 
   ngOnInit(): void {
     // Cargar historial de acciones del usuario
@@ -37,15 +45,15 @@ export class HistorialPage implements OnInit, OnDestroy {
    */
   async clearHistory(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Limpiar historial',
-      message: '¿Estás seguro que deseas eliminar todo el historial? Esta acción no se puede deshacer.',
+      header: this.translate.translate('HISTORY.CLEAR_CONFIRM_TITLE'),
+      message: this.translate.translate('HISTORY.CLEAR_CONFIRM_MESSAGE'),
       buttons: [
         {
-          text: 'Cancelar',
+          text: this.translate.translate('ALERT.CANCEL'),
           role: 'cancel'
         },
         {
-          text: 'Limpiar',
+          text: this.translate.translate('BUTTON.CLEAR'),
           role: 'confirm',
           handler: () => {
             this.taskService.clearHistory();

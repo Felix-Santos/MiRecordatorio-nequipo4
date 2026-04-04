@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar color="success">
+    <ion-toolbar color="success">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
-    <ion-title>Calendario</ion-title>
+    <ion-title>{{ 'CALENDAR.TITLE' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,16 +13,15 @@
     [(ngModel)]="selectedDate"
     (ionChange)="onDateChange($event)"
     presentation="date"
-    locale="es-ES"
+    [locale]="locale"
     picker-format="DD MM YYYY"
     display-format="DD/MM/YYYY"
-    [min]="minDate"
-    show-default-buttons="true">
+    [min]="minDate">
   </ion-datetime>
 
   <div *ngIf="selectedDate">
     <h2 style="margin-top:15px;">
-      Tareas para {{ formatDate(selectedDate) }}
+      {{ 'CALENDAR.TASKS_FOR' | translate:{ date: formatDate(selectedDate) } }}
     </h2>
 
     <ion-list *ngIf="selectedDateTasks.length > 0; else noTasks">
@@ -37,15 +36,15 @@
           [checked]="task.completed"
           (ionChange)="toggleComplete(task)">
         </ion-checkbox>
-        <ion-badge slot="end" [color]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'success'">
-          {{ task.priority }}
-        </ion-badge>
+          <ion-badge slot="end" [color]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'success'">
+            {{ ('PRIORITY.' + (task.priority || '').toUpperCase()) | translate }}
+          </ion-badge>
       </ion-item>
     </ion-list>
 
     <ng-template #noTasks>
       <ion-text color="medium" class="no-tasks">
-        <p>No hay tareas programadas para esta fecha.</p>
+        <p>{{ 'CALENDAR.NO_TASKS' | translate }}</p>
       </ion-text>
     </ng-template>
   </div>

@@ -3,9 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/login"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mi recordatorio</ion-title>
+    <ion-title>{{ 'LIST.TITLE' | translate }}</ion-title>
 
     <ion-buttons slot="end">
+      <ion-button (click)="openSettings()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
@@ -18,21 +21,21 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-<ion-button expand="block" routerLink="/historial">HISTORIAL</ion-button>
-<ion-button expand="block" routerLink="/papelera">PAPELERA</ion-button>
-<ion-button expand="block" routerLink="/calendario">CALENDARIO</ion-button>
+<ion-button expand="block" routerLink="/historial">{{ 'LIST.HISTORY' | translate }}</ion-button>
+<ion-button expand="block" routerLink="/papelera">{{ 'LIST.TRASH' | translate }}</ion-button>
+<ion-button expand="block" routerLink="/calendario">{{ 'LIST.CALENDAR' | translate }}</ion-button>
 
   <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)">
     <ion-segment-button value="all">
-      <ion-label>Todas</ion-label>
+      <ion-label>{{ 'SEGMENT.ALL' | translate }}</ion-label>
     </ion-segment-button>
 
     <ion-segment-button value="priority">
-      <ion-label>Por Prioridad</ion-label>
+      <ion-label>{{ 'SEGMENT.PRIORITY' | translate }}</ion-label>
     </ion-segment-button>
 
     <ion-segment-button value="completed">
-      <ion-label>Completadas</ion-label>
+      <ion-label>{{ 'SEGMENT.COMPLETED' | translate }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -62,7 +65,7 @@
       <ion-badge 
         [color]="task.priority === 'Alta' ? 'danger' : 
                  task.priority === 'Media' ? 'warning' : 'success'">
-        {{ task.priority }}
+        {{ ('PRIORITY.' + (task.priority || '').toUpperCase()) | translate }}
       </ion-badge>
 
       <ion-button fill="clear" [routerLink]="['/editar-tarea', task.id]">

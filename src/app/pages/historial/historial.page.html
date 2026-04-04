@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar color="success">
+    <ion-toolbar color="success">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
-    <ion-title>Historial</ion-title>
+    <ion-title>{{ 'HISTORY.TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="clearHistory()" color="danger">
         <ion-icon name="trash-outline"></ion-icon>
@@ -16,22 +16,22 @@
   <ion-list *ngIf="history.length > 0; else noHistory">
     <ion-item *ngFor="let entry of history">
       <ion-label>
-        <h2>{{ getActionDescription(entry.action) }}</h2>
+        <h2>{{ ('ACTION.' + entry.action.toUpperCase()) | translate }}</h2>
         <p>{{ formatDate(entry.timestamp) }}</p>
         <p *ngIf="entry.newValue?.title" color="primary">
           Tarea: {{ entry.newValue.title }}
         </p>
       </ion-label>
       <ion-badge slot="end" [color]="getActionColor(entry.action)">
-        {{ getActionDescription(entry.action) }}
+        {{ ('ACTION.' + entry.action.toUpperCase()) | translate }}
       </ion-badge>
     </ion-item>
   </ion-list>
 
-  <ng-template #noHistory>
+    <ng-template #noHistory>
     <ion-text color="medium" class="no-history">
-      <p>No hay acciones registradas aún.</p>
-      <p>Las acciones sobre tus tareas aparecerán aquí.</p>
+      <p>{{ 'HISTORY.NO_ACTIONS' | translate }}</p>
+      <p>{{ 'HISTORY.INFO' | translate }}</p>
     </ion-text>
   </ng-template>
 </ion-content>

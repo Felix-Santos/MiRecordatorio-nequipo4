@@ -34,15 +34,29 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* Removed dark.system import to prevent automatic dark theme */
+
+/* Default light theme variables */
+:root {
+  --ion-background-color: #f4f5f8;
+  --ion-text-color: #111111;
+  --ion-text-color-rgb: 17,17,17;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-color-primary: #0054e9;
+  --ion-color-primary-rgb: 0,84,233;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-success: #10dc60;
+}
+/* Fondo general */
 /* Fondo general */
 ion-content {
-  --background: #f4f5f8; /* gris claro como en la imagen */
+  --background: var(--ion-background-color, #f4f5f8); /* usa variable para permitir temas */
 }
 
 ion-item {
-  --background: #ffffff;
-  --color: #000;
+  --background: var(--ion-item-background, #ffffff);
+  --color: var(--ion-text-color, #000000);
   border-radius: 10px;
   margin-bottom: 10px;
 }
@@ -52,18 +66,19 @@ ion-input, ion-textarea {
 }
 
 ion-label {
-  color: #555 !important;
+  color: var(--ion-text-color, #555) !important;
 }
 /* Tarjetas */
 ion-card {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   margin-bottom: 12px;
+  background: var(--ion-card-background, #ffffff);
 }
 
 /* Inputs */
 ion-item {
-  --background: #ffffff;
+  --background: var(--ion-item-background, #ffffff);
   border-radius: 10px;
   margin-bottom: 10px;
 }
@@ -87,6 +102,6 @@ ion-badge {
 }
 
 ion-datetime {
-  --background: #ffffff;
-  color: #000;
+  --background: var(--ion-item-background, #ffffff);
+  color: var(--ion-text-color, #000);
 }

@@ -19,7 +19,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Fecha Límite</ion-label>
+    <ion-label position="stacked">{{ 'NEW.DUE_DATE_LABEL' | translate }}</ion-label>
     <ion-datetime
       [(ngModel)]="newTask.date"
       presentation="date-time"
@@ -29,6 +29,38 @@
       picker-format="DD MM YYYY HH mm"
       show-default-buttons="true">
     </ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">{{ 'NEW.NOTIFY_BEFORE_LABEL' | translate }}</ion-label>
+    <div style="display:flex; gap:8px; align-items:center; width:100%;">
+      <ng-container>
+        <ion-select [(ngModel)]="newTask.notifyUnit" interface="popover" style="width:140px;">
+          <ion-select-option value="hours">{{ 'UNIT.HOURS' | translate }}</ion-select-option>
+          <ion-select-option value="days">{{ 'UNIT.DAYS' | translate }}</ion-select-option>
+        </ion-select>
+
+        <ion-select *ngIf="newTask.notifyUnit === 'hours'" [(ngModel)]="newTask.notifyAmount" interface="popover" style="width:110px;">
+          <ion-select-option [value]="1">1</ion-select-option>
+          <ion-select-option [value]="2">2</ion-select-option>
+          <ion-select-option [value]="3">3</ion-select-option>
+          <ion-select-option [value]="4">4</ion-select-option>
+          <ion-select-option [value]="6">6</ion-select-option>
+          <ion-select-option [value]="12">12</ion-select-option>
+          <ion-select-option [value]="24">24</ion-select-option>
+        </ion-select>
+
+        <ion-select *ngIf="newTask.notifyUnit === 'days'" [(ngModel)]="newTask.notifyAmount" interface="popover" style="width:110px;">
+          <ion-select-option [value]="1">1</ion-select-option>
+          <ion-select-option [value]="2">2</ion-select-option>
+          <ion-select-option [value]="3">3</ion-select-option>
+          <ion-select-option [value]="7">7</ion-select-option>
+          <ion-select-option [value]="14">14</ion-select-option>
+          <ion-select-option [value]="30">30</ion-select-option>
+        </ion-select>
+      </ng-container>
+    </div>
+    <ion-note slot="helper">{{ 'NEW.NOTIFY_BEFORE_HELPER' | translate }}</ion-note>
   </ion-item>
 
   <ion-item>

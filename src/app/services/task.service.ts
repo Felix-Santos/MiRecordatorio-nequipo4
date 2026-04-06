@@ -3,6 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Task, TaskHistory } from '../models/task.model';
 import { AuthService } from './auth.service';
+import { ToastController, Platform } from '@ionic/angular';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { Haptics } from '@capacitor/haptics';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +21,102 @@ export class TaskService {
   private readonly TASKS_KEY = 'tasks';
   private readonly HISTORY_KEY = 'taskHistory';
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private toastCtrl: ToastController,
+    private platform: Platform
+  ) {
     this.loadFromStorage();
+    this.initNotifications();
+  }
+
+  /** Inicializa listeners y permisos para notificaciones locales */
+  private async initNotifications(): Promise<void> {
+    try {
+      await this.ensureNotificationPermissions();
+
+      // Cuando llega una notificación mientras la app está en primer plano
+      LocalNotifications.addListener('localNotificationReceived', (notification: any) => {
+        const payload = notification?.notification || notification;
+        const title = payload?.title || 'Recordatorio';
+        const body = payload?.body || '';
+        this.onLocalNotificationReceived(title, body);
+      });
+
+      // Acción realizada desde la notificación (tap)
+      LocalNotifications.addListener('localNotificationActionPerformed', (action: any) => {
+        const payload = action?.notification || action;
+        const title = payload?.title || 'Recordatorio';
+        const body = payload?.body || '';
+        this.onLocalNotificationReceived(title, body);
+      });
+    } catch (e) {
+      // Si falla (por ejemplo en navegador sin permisos o plugin faltante), seguimos sin bloqueo
+      console.warn('Inicialización de notificaciones falló', e);
+    }
+  }
+
+  private async ensureNotificationPermissions(): Promise<void> {
+    try {
+      await LocalNotifications.requestPermissions();
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  private async onLocalNotificationReceived(title: string, body: string): Promise<void> {
+    try {
+      // Haptics (intentar, con fallback a navigator.vibrate)
+      try {
+        await Haptics.notification({ type: 'SUCCESS' } as any);
+      } catch (e) {
+        try { (navigator as any).vibrate?.([200, 100, 200]); } catch (_) { }
+      }
+
+      // Sonido corto en primer plano
+      this.playBeep();
+
+      // Toast flotante
+      this.showToast(`${title}: ${body}`, 'warning');
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  private async showToast(message: string, color = 'warning'): Promise<void> {
+    try {
+      const toast = await this.toastCtrl.create({
+        message,
+        duration: 3500,
+        color,
+        position: 'top'
+      });
+      await toast.present();
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  private playBeep(): void {
+    try {
+      const AudioContext = (window as any).AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 1000;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(() => {
+        o.stop();
+        ctx.close();
+      }, 250);
+    } catch (e) {
+      // ignore
+    }
   }
 
   /**
@@ -167,6 +264,9 @@ export class TaskService {
     this.addToHistory(newTask.id, 'created', null, newTask);
     this.saveToStorage();
     this.updateTasksSubject();
+
+    // Programar notificación si corresponde (no bloqueante)
+    this.scheduleNotificationForTask(newTask).catch(() => { /* no bloquear */ });
   }
 
   /**
@@ -180,6 +280,11 @@ export class TaskService {
       this.addToHistory(id, 'updated', oldTask, this.tasks[index]);
       this.saveToStorage();
       this.updateTasksSubject();
+
+      // Re-programar notificación: cancelar la anterior y crear una nueva si aplica
+      const updated = this.tasks[index];
+      this.cancelNotificationById(updated.notificationId ?? updated.id).catch(() => {});
+      this.scheduleNotificationForTask(updated).catch(() => {});
     }
   }
 
@@ -194,6 +299,9 @@ export class TaskService {
       this.addToHistory(id, 'deleted', oldTask, task);
       this.saveToStorage();
       this.updateTasksSubject();
+
+      // Cancelar notificación asociada
+      this.cancelNotificationById(task.notificationId ?? task.id).catch(() => {});
     }
   }
 
@@ -235,6 +343,49 @@ export class TaskService {
       this.addToHistory(id, newCompleted ? 'completed' : 'updated', oldTask, task);
       this.saveToStorage();
       this.updateTasksSubject();
+
+      // Si se completó la tarea, cancelar la notificación pendiente
+      if (newCompleted) {
+        this.cancelNotificationById(task.notificationId ?? task.id).catch(() => {});
+      }
+    }
+  }
+
+  /** Programa una notificación local para la tarea si tiene `notifyBeforeMinutes` */
+  private async scheduleNotificationForTask(task: Task): Promise<void> {
+    try {
+      if (!task.notifyBeforeMinutes) return;
+
+      const fireTime = new Date(task.date).getTime() - (task.notifyBeforeMinutes * 60000);
+      const at = new Date(fireTime <= Date.now() ? Date.now() + 5000 : fireTime);
+
+      await this.ensureNotificationPermissions();
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: task.id,
+            title: 'Tarea próxima a vencer',
+            body: task.title,
+            schedule: { at },
+            sound: 'default'
+          }
+        ]
+      });
+
+      task.notificationId = task.id;
+      this.saveToStorage();
+    } catch (e) {
+      // Si falla la programación (p. ej. en navegador sin plugin), ignoramos.
+      console.warn('No se pudo programar notificación', e);
+    }
+  }
+
+  private async cancelNotificationById(id: number | undefined): Promise<void> {
+    if (!id) return;
+    try {
+      await LocalNotifications.cancel({ notifications: [{ id }] } as any);
+    } catch (e) {
+      // ignore
     }
   }
 

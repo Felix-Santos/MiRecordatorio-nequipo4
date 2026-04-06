@@ -20,8 +20,14 @@ export class NuevaTareaPage {
     title: '',
     description: '',
     date: '',
-    priority: 'Baja' as 'Alta' | 'Media' | 'Baja' // Cambiar default a 'Baja'
+    priority: 'Baja' as 'Alta' | 'Media' | 'Baja', // Cambiar default a 'Baja'
+    // Preferencia de notificación: cantidad y unidad (horas/días)
+    notifyAmount: 1,
+    notifyUnit: 'hours' as 'hours' | 'days'
   };
+
+  // Opciones de selección: de 1.0 a 10.0 con paso 0.1
+  notifyOptions: number[] = Array.from({ length: 91 }, (_, i) => parseFloat((1 + i * 0.1).toFixed(1)));
 
   // use start of day ISO so users can pick any hour of today
   minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString();
@@ -41,11 +47,20 @@ export class NuevaTareaPage {
     if (this.newTask.title.trim() && this.newTask.date) {
       // normalizar la fecha a ISO para evitar errores de parsing/locale
       const normalizedDate = new Date(this.newTask.date).toISOString();
+
+      // calcular minutos de anticipación según la preferencia del usuario
+      let notifyBeforeMinutes: number | undefined = undefined;
+      if (this.newTask.notifyAmount && this.newTask.notifyUnit) {
+        const amount = parseFloat(String(this.newTask.notifyAmount)) || 0;
+        notifyBeforeMinutes = Math.round(this.newTask.notifyUnit === 'days' ? amount * 24 * 60 : amount * 60);
+      }
+
       this.taskService.addTask({
         ...this.newTask,
         date: normalizedDate,
         status: 'Pendiente',
-        completed: false
+        completed: false,
+        notifyBeforeMinutes
       });
       this.showToast(this.translate.translate('NEW.TOAST_SAVED'), 'success');
       this.router.navigate(['/lista-tareas']);

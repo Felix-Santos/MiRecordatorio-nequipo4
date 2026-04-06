@@ -33,12 +33,43 @@
   </ion-item>
 
   <ion-item *ngIf="tarea">
-    <ion-label>{{ 'EDIT.PRIORITY_LABEL' | translate }}</ion-label>
-    <ion-select [(ngModel)]="tarea.priority">
+    <ion-select [(ngModel)]="tarea.priority" interface="popover" placeholder="{{ 'NEW.PRIORITY_LABEL' | translate }}">
       <ion-select-option value="Alta">{{ 'PRIORITY.ALTA' | translate }}</ion-select-option>
       <ion-select-option value="Media">{{ 'PRIORITY.MEDIA' | translate }}</ion-select-option>
       <ion-select-option value="Baja">{{ 'PRIORITY.BAJA' | translate }}</ion-select-option>
     </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="tarea">
+    <ion-label position="stacked">{{ 'EDIT.NOTIFY_BEFORE_LABEL' | translate }}</ion-label>
+    <div style="display:flex; gap:8px; align-items:center; width:100%;">
+      <ng-container>
+        <ion-select [(ngModel)]="notifyUnit" interface="popover" style="width:140px;">
+          <ion-select-option value="hours">{{ 'UNIT.HOURS' | translate }}</ion-select-option>
+          <ion-select-option value="days">{{ 'UNIT.DAYS' | translate }}</ion-select-option>
+        </ion-select>
+
+        <ion-select *ngIf="notifyUnit === 'hours'" [(ngModel)]="notifyAmount" interface="popover" style="width:110px;">
+          <ion-select-option [value]="1">1</ion-select-option>
+          <ion-select-option [value]="2">2</ion-select-option>
+          <ion-select-option [value]="3">3</ion-select-option>
+          <ion-select-option [value]="4">4</ion-select-option>
+          <ion-select-option [value]="6">6</ion-select-option>
+          <ion-select-option [value]="12">12</ion-select-option>
+          <ion-select-option [value]="24">24</ion-select-option>
+        </ion-select>
+
+        <ion-select *ngIf="notifyUnit === 'days'" [(ngModel)]="notifyAmount" interface="popover" style="width:110px;">
+          <ion-select-option [value]="1">1</ion-select-option>
+          <ion-select-option [value]="2">2</ion-select-option>
+          <ion-select-option [value]="3">3</ion-select-option>
+          <ion-select-option [value]="7">7</ion-select-option>
+          <ion-select-option [value]="14">14</ion-select-option>
+          <ion-select-option [value]="30">30</ion-select-option>
+        </ion-select>
+      </ng-container>
+    </div>
+    <ion-note slot="helper">{{ 'EDIT.NOTIFY_BEFORE_HELPER' | translate }}</ion-note>
   </ion-item>
 
   <ion-button expand="block" color="success" *ngIf="tarea" (click)="saveChanges()">

@@ -58,6 +58,12 @@ export class TranslateService {
       'NEW.PRIORITY_LABEL': 'Prioridad',
       'NEW.TOAST_SAVED': 'Tarea guardada exitosamente',
       'NEW.TOAST_FILL': 'Por favor complete título y fecha',
+      'NEW.NOTIFY_BEFORE_LABEL': 'Notificar antes de',
+      'NEW.NOTIFY_BEFORE_HELPER': 'Especifica con cuánto tiempo de anticipación quieres recibir la notificación.',
+      'EDIT.NOTIFY_BEFORE_LABEL': 'Notificar antes de',
+      'EDIT.NOTIFY_BEFORE_HELPER': 'Especifica con cuánto tiempo de anticipación quieres recibir la notificación.',
+      'UNIT.HOURS': 'Horas',
+      'UNIT.DAYS': 'Días',
       'VOICE.INPUT_MSG': 'Funcionalidad de entrada por voz próximamente disponible',
 
       // Historial
@@ -147,6 +153,12 @@ export class TranslateService {
       'NEW.PRIORITY_LABEL': 'Priority',
       'NEW.TOAST_SAVED': 'Task saved successfully',
       'NEW.TOAST_FILL': 'Please fill title and date',
+      'NEW.NOTIFY_BEFORE_LABEL': 'Notify before',
+      'NEW.NOTIFY_BEFORE_HELPER': 'Specify how much time in advance you want to be notified.',
+      'EDIT.NOTIFY_BEFORE_LABEL': 'Notify before',
+      'EDIT.NOTIFY_BEFORE_HELPER': 'Specify how much time in advance you want to be notified.',
+      'UNIT.HOURS': 'Hours',
+      'UNIT.DAYS': 'Days',
       'VOICE.INPUT_MSG': 'Voice input coming soon',
 
       // Historial

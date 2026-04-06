@@ -18,6 +18,8 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 export class EditarTareaPage implements OnInit {
 
   tarea: Task | undefined;
+  notifyAmount: number = 1;
+  notifyUnit: 'hours' | 'days' = 'hours';
   // use start of day ISO so time selection works properly
   minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString(); // Fecha actual como mínimo
   locale: string = 'es-ES'; // default locale
@@ -41,6 +43,18 @@ export class EditarTareaPage implements OnInit {
     if (!this.tarea) {
       this.router.navigate(['/lista-tareas']);
     }
+
+    // Inicializar controles de notificación a partir del valor almacenado
+    if (this.tarea && this.tarea.notifyBeforeMinutes) {
+      const minutes = this.tarea.notifyBeforeMinutes;
+      if (minutes % 1440 === 0) {
+        this.notifyUnit = 'days';
+        this.notifyAmount = Math.round(minutes / 1440);
+      } else {
+        this.notifyUnit = 'hours';
+        this.notifyAmount = Math.round(minutes / 60);
+      }
+    }
   }
 
   saveChanges(): void {
@@ -49,6 +63,14 @@ export class EditarTareaPage implements OnInit {
       if (this.tarea.date) {
         this.tarea.date = new Date(this.tarea.date).toISOString();
       }
+      // Calcular minutos de anticipación según selección del usuario
+      let notifyBeforeMinutes: number | undefined = undefined;
+      const amount = Number(this.notifyAmount) || 0;
+      if (amount > 0) {
+        notifyBeforeMinutes = this.notifyUnit === 'days' ? amount * 24 * 60 : amount * 60;
+      }
+      this.tarea.notifyBeforeMinutes = notifyBeforeMinutes;
+
       this.taskService.updateTask(this.tarea.id, this.tarea);
       this.router.navigate(['/lista-tareas']);
     }

@@ -9,6 +9,10 @@ export interface Task {
   completed: boolean;
   createdAt: string;
   updatedAt: string;
+  // Minutos de anticipación para la notificación (opcional)
+  notifyBeforeMinutes?: number;
+  // ID de la notificación programada en el sistema (opcional)
+  notificationId?: number;
   deletedAt?: string; // Para papelera (soft delete)
 }
 

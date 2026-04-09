@@ -1,5 +1,5 @@
 ion-card {
-  background: #ffffff;
+  background: var(--ion-card-background, #ffffff);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 10px 0;
@@ -8,11 +8,11 @@ ion-card {
 ion-card-title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--ion-text-color, #333);
 }
 
 ion-card-subtitle {
-  color: #666;
+  color: var(--ion-text-color, #666);
   font-size: 13px;
 }
 
@@ -20,24 +20,49 @@ ion-badge {
   margin-left: 10px;
 }
 
+h2 {
+  color: var(--ion-text-color, #333);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+p {
+  color: var(--ion-text-color, #666);
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.task-description {
+  color: var(--ion-text-color, #666);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
 .tachado {
   text-decoration: line-through;
-  color: #999;
+  color: var(--ion-color-medium, #999);
 }
 
 ion-segment {
-  background: #ffffff;
+  background: var(--ion-item-background, #ffffff);
   border-radius: 10px;
   margin: 10px 0;
 }
 
 ion-segment-button {
-  color: #555;
+  color: var(--ion-text-color, #555);
+  --color: var(--ion-text-color, #555);
 }
 
 ion-segment-button.ion-activated {
-  color: #2e7d32;
+  color: var(--ion-color-primary, #2e7d32);
+  --color: var(--ion-color-primary, #2e7d32);
   font-weight: bold;
+}
+
+ion-segment-button ion-label {
+  color: var(--ion-text-color, #555);
 }
 
 .task-card-content {

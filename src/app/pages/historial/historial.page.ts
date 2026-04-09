@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { SettingsService } from '../../services/settings.service';
 import { TranslateService } from '../../services/translate.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { DateFormatterService } from '../../services/date-formatter.service';
 
 @Component({
   selector: 'app-historial',
@@ -24,7 +25,8 @@ export class HistorialPage implements OnInit, OnDestroy {
     private taskService: TaskService,
     private alertCtrl: AlertController,
     private settings: SettingsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private dateFormatter: DateFormatterService
   ) {
     this.settings.language$.subscribe(l => this.locale = l === 'en' ? 'en-US' : 'es-ES');
   }
@@ -84,13 +86,7 @@ export class HistorialPage implements OnInit, OnDestroy {
    * Formatea la fecha para mostrar
    */
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleString('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return this.dateFormatter.formatDateTime(dateString, this.locale);
   }
 
   /**

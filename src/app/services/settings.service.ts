@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from './translate.service';
+import { StorageService } from './storage.service';
+import { ColorUtil } from '../utils/color.util';
 
 @Injectable({
   providedIn: 'root'
@@ -10,69 +12,74 @@ export class SettingsService {
   private readonly THEME_KEY = 'app_theme';
   private readonly CUSTOM_KEY = 'app_custom_theme';
 
-  private languageSubject = new BehaviorSubject<string>(this.getFromStorage(this.LANG_KEY) || 'es');
-  private themeSubject = new BehaviorSubject<string>(this.getFromStorage(this.THEME_KEY) || 'default');
+  // Inicializar con valores por defecto; luego los sobrescribimos desde almacenamiento.
+  private languageSubject = new BehaviorSubject<string>('es');
+  private themeSubject = new BehaviorSubject<string>('default');
 
   public language$ = this.languageSubject.asObservable();
   public theme$ = this.themeSubject.asObservable();
 
-  constructor(private translateService: TranslateService) {
-    // aplicar al inicio
-    this.applyLanguage(this.languageSubject.value);
-    // Si existe un tema personalizado guardado, aplicarlo
-    const theme = this.themeSubject.value;
-    if (theme === 'custom') {
-      const customRaw = this.getFromStorage(this.CUSTOM_KEY);
-      if (customRaw) {
-        try {
-          const c = JSON.parse(customRaw);
-          this.applyCustomTheme(c);
-        } catch (e) {
+  constructor(private translateService: TranslateService, private storage: StorageService) {
+    // Inicialización asíncrona: leer valores guardados y aplicar idioma/tema.
+    this.init();
+  }
+
+  private async init() {
+    try {
+      const storedLang = await this.storage.get<string>(this.LANG_KEY);
+      if (storedLang) this.languageSubject.next(storedLang);
+      this.applyLanguage(this.languageSubject.value);
+
+      const storedTheme = await this.storage.get<string>(this.THEME_KEY);
+      const theme = storedTheme || this.themeSubject.value;
+      this.themeSubject.next(theme);
+
+      if (theme === 'custom') {
+        const custom = await this.storage.get(this.CUSTOM_KEY) as any;
+        if (custom) {
+          this.applyCustomTheme(custom);
+        } else {
           this.applyTheme(theme);
         }
       } else {
         this.applyTheme(theme);
       }
-    } else {
+
+      // sincronizar con TranslateService
+      this.translateService.setLanguage(this.languageSubject.value);
+    } catch (e) {
+      // si algo falla, aplicar los valores por defecto
+      this.applyLanguage(this.languageSubject.value);
       this.applyTheme(this.themeSubject.value);
+      this.translateService.setLanguage(this.languageSubject.value);
     }
-    // sincronizar con TranslateService
-    this.translateService.setLanguage(this.languageSubject.value);
   }
 
-  setLanguage(lang: string) {
-    localStorage.setItem(this.LANG_KEY, lang);
+  async setLanguage(lang: string) {
+    await this.storage.set(this.LANG_KEY, lang);
     this.languageSubject.next(lang);
     this.applyLanguage(lang);
     this.translateService.setLanguage(lang);
   }
 
-  setTheme(theme: string) {
-    localStorage.setItem(this.THEME_KEY, theme);
+  async setTheme(theme: string) {
+    await this.storage.set(this.THEME_KEY, theme);
     this.themeSubject.next(theme);
     this.applyTheme(theme);
   }
 
-  setCustomTheme(colors: { primary: string; primaryRgb: string; contrast: string; background: string }) {
-    localStorage.setItem(this.CUSTOM_KEY, JSON.stringify(colors));
-    localStorage.setItem(this.THEME_KEY, 'custom');
+  async setCustomTheme(colors: { primary: string; primaryRgb: string; contrast: string; background: string }) {
+    await this.storage.set(this.CUSTOM_KEY, colors);
+    await this.storage.set(this.THEME_KEY, 'custom');
     this.themeSubject.next('custom');
     this.applyCustomTheme(colors);
   }
 
-  getCustomTheme(): { primary: string; primaryRgb: string; contrast: string; background: string } | null {
-    const raw = this.getFromStorage(this.CUSTOM_KEY);
+  async getCustomTheme(): Promise<{ primary: string; primaryRgb: string; contrast: string; background: string } | null> {
+    const raw = await this.storage.get(this.CUSTOM_KEY) as any;
     if (!raw) return null;
     try {
-      return JSON.parse(raw);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  private getFromStorage(key: string): string | null {
-    try {
-      return localStorage.getItem(key);
+      return raw as { primary: string; primaryRgb: string; contrast: string; background: string };
     } catch (e) {
       return null;
     }
@@ -106,7 +113,7 @@ export class SettingsService {
       root.style.setProperty('--ion-background-color', p.background);
       root.style.setProperty('--ion-text-color', p.text || '#111');
       // also expose an RGB tuple for components that use the rgb var
-      const textRgb = this.hexToRgb(p.text || '#111111') || '17,17,17';
+      const textRgb = ColorUtil.hexToRgb(p.text || '#111111') || '17,17,17';
       root.style.setProperty('--ion-text-color-rgb', textRgb);
       root.style.setProperty('--ion-item-background', p.itemBg || '#ffffff');
       root.style.setProperty('--ion-card-background', p.cardBg || '#ffffff');
@@ -124,9 +131,9 @@ export class SettingsService {
       root.style.setProperty('--ion-color-primary-contrast', c.contrast);
       root.style.setProperty('--ion-background-color', c.background);
       // Determinar color de texto legible según el fondo
-      const textColor = this.isColorDark(c.background) ? '#ffffff' : '#111111';
+      const textColor = ColorUtil.isColorDark(c.background) ? '#ffffff' : '#111111';
       root.style.setProperty('--ion-text-color', textColor);
-      const textRgb = this.hexToRgb(textColor) || '17,17,17';
+      const textRgb = ColorUtil.hexToRgb(textColor) || '17,17,17';
       root.style.setProperty('--ion-text-color-rgb', textRgb);
       // Usar valores neutros para item/card si no proporcionados
       root.style.setProperty('--ion-item-background', '#ffffff');
@@ -137,30 +144,5 @@ export class SettingsService {
     }
   }
 
-  private hexToRgb(hex: string): string | null {
-    if (!hex) return null;
-    let h = hex.replace('#', '').trim();
-    if (h.length === 3) {
-      h = h.split('').map(ch => ch + ch).join('');
-    }
-    if (h.length !== 6) return null;
-    const bigint = parseInt(h, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return `${r},${g},${b}`;
-  }
 
-  private isColorDark(hex: string): boolean {
-    if (!hex) return false;
-    let h = hex.replace('#', '');
-    if (h.length === 3) h = h.split('').map(s => s + s).join('');
-    const bigint = parseInt(h, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    // fórmula simple de luminancia
-    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-    return luminance < 128;
-  }
 }

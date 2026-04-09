@@ -35,6 +35,11 @@ const routes: Routes = [
     path: 'calendario',
     loadComponent: () => import('./pages/calendario/calendario.page').then(m => m.CalendarioPage)
   }
+  ,
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then(m => m.SettingsPage)
+  }
 ];
 
 @NgModule({

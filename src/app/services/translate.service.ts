@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { StorageService } from './storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class TranslateService {
-  private langSubject = new BehaviorSubject<string>(localStorage.getItem('app_language') || 'es');
+  private langSubject = new BehaviorSubject<string>('es');
   public lang$ = this.langSubject.asObservable();
 
   private translations: { [lang: string]: { [key: string]: string } } = {
@@ -199,10 +200,21 @@ export class TranslateService {
     }
   };
 
-  constructor() {}
+  constructor(private storage: StorageService) {
+    this.init();
+  }
+
+  private async init() {
+    await this.storage.ready();
+    const stored = await this.storage.get<string>('app_language');
+    if (stored) {
+      this.langSubject.next(stored);
+    }
+  }
 
   setLanguage(lang: string) {
-    localStorage.setItem('app_language', lang);
+    // Guardado asíncrono; actualizamos el subject inmediatamente para que la UI responda.
+    void this.storage.set('app_language', lang);
     this.langSubject.next(lang);
   }
 

@@ -6,6 +6,7 @@ import { Task } from '../../models/task.model';
 import { Subscription } from 'rxjs';
 import { SettingsService } from '../../services/settings.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { DateFormatterService } from '../../services/date-formatter.service';
 
 @Component({
   selector: 'app-papelera',
@@ -19,7 +20,7 @@ export class PapeleraPage implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   locale: string = 'es-ES';
 
-  constructor(private taskService: TaskService, private settings: SettingsService) {
+  constructor(private taskService: TaskService, private settings: SettingsService, private dateFormatter: DateFormatterService) {
     this.settings.language$.subscribe(l => this.locale = l === 'en' ? 'en-US' : 'es-ES');
   }
 
@@ -52,12 +53,6 @@ export class PapeleraPage implements OnInit, OnDestroy {
    * Formatea la fecha de eliminación
    */
   formatDeletedDate(dateString: string): string {
-    return new Date(dateString).toLocaleString(this.locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return this.dateFormatter.formatDateTime(dateString, this.locale);
   }
 }

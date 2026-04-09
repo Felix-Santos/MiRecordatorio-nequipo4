@@ -7,6 +7,7 @@ import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.model';
 import { SettingsService } from '../../services/settings.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { NotificationUtil } from '../../utils/notification.util';
 
 @Component({
   selector: 'app-editar-tarea',
@@ -46,13 +47,10 @@ export class EditarTareaPage implements OnInit {
 
     // Inicializar controles de notificación a partir del valor almacenado
     if (this.tarea && this.tarea.notifyBeforeMinutes) {
-      const minutes = this.tarea.notifyBeforeMinutes;
-      if (minutes % 1440 === 0) {
-        this.notifyUnit = 'days';
-        this.notifyAmount = Math.round(minutes / 1440);
-      } else {
-        this.notifyUnit = 'hours';
-        this.notifyAmount = Math.round(minutes / 60);
+      const notification = NotificationUtil.fromMinutes(this.tarea.notifyBeforeMinutes);
+      if (notification) {
+        this.notifyUnit = notification.unit;
+        this.notifyAmount = notification.amount;
       }
     }
   }
@@ -64,12 +62,7 @@ export class EditarTareaPage implements OnInit {
         this.tarea.date = new Date(this.tarea.date).toISOString();
       }
       // Calcular minutos de anticipación según selección del usuario
-      let notifyBeforeMinutes: number | undefined = undefined;
-      const amount = Number(this.notifyAmount) || 0;
-      if (amount > 0) {
-        notifyBeforeMinutes = this.notifyUnit === 'days' ? amount * 24 * 60 : amount * 60;
-      }
-      this.tarea.notifyBeforeMinutes = notifyBeforeMinutes;
+      this.tarea.notifyBeforeMinutes = NotificationUtil.toMinutes(this.notifyAmount, this.notifyUnit);
 
       this.taskService.updateTask(this.tarea.id, this.tarea);
       this.router.navigate(['/lista-tareas']);

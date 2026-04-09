@@ -7,6 +7,7 @@ import { TaskService } from '../../services/task.service';
 import { SettingsService } from '../../services/settings.service';
 import { TranslateService } from '../../services/translate.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { NotificationUtil } from '../../utils/notification.util';
 
 @Component({
   selector: 'app-nueva-tarea',
@@ -49,11 +50,7 @@ export class NuevaTareaPage {
       const normalizedDate = new Date(this.newTask.date).toISOString();
 
       // calcular minutos de anticipación según la preferencia del usuario
-      let notifyBeforeMinutes: number | undefined = undefined;
-      if (this.newTask.notifyAmount && this.newTask.notifyUnit) {
-        const amount = parseFloat(String(this.newTask.notifyAmount)) || 0;
-        notifyBeforeMinutes = Math.round(this.newTask.notifyUnit === 'days' ? amount * 24 * 60 : amount * 60);
-      }
+      const notifyBeforeMinutes = NotificationUtil.toMinutes(this.newTask.notifyAmount, this.newTask.notifyUnit);
 
       this.taskService.addTask({
         ...this.newTask,

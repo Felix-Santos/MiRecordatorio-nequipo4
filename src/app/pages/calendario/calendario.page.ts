@@ -7,6 +7,7 @@ import { Task } from '../../models/task.model';
 import { Subscription } from 'rxjs';
 import { SettingsService } from '../../services/settings.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { DateFormatterService } from '../../services/date-formatter.service';
 
 @Component({
   selector: 'app-calendario',
@@ -30,7 +31,7 @@ export class CalendarioPage implements OnInit, OnDestroy {
   locale: string = 'es-ES';
   private subscription: Subscription = new Subscription();
 
-  constructor(private taskService: TaskService, private settings: SettingsService) {
+  constructor(private taskService: TaskService, private settings: SettingsService, private dateFormatter: DateFormatterService) {
     this.settings.language$.subscribe(l => {
       this.locale = l === 'en' ? 'en-US' : 'es-ES';
     });
@@ -77,13 +78,7 @@ export class CalendarioPage implements OnInit, OnDestroy {
    * Formatea la fecha para mostrar
    */
   formatDate(dateString: string): string {
-    const locale = this.locale || 'es-ES';
-    return new Date(dateString).toLocaleDateString(locale, {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    return this.dateFormatter.formatDate(dateString, this.locale);
   }
 
   /**

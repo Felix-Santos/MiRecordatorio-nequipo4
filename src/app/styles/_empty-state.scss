@@ -1,0 +1,38 @@
+/**
+ * Estilos compartidos para estados vacíos en páginas
+ * Uso: @import '../styles/empty-state';
+ *      <div class="empty-state">...</div>
+ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+  color: var(--ion-text-color, #888);
+  padding: 8px 24px;
+
+  .empty-icon {
+    font-size: 48px;
+    opacity: 0.35;
+    margin-bottom: 12px;
+  }
+
+  .title {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .muted {
+    color: var(--ion-color-medium, #999);
+    max-width: 80%;
+  }
+}
+
+// Alias para compatibilidad con código existente
+.no-deleted,
+.no-history,
+.no-tasks {
+  @extend .empty-state;
+}

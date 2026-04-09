@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
     </ion-buttons>
@@ -8,12 +8,60 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
+  <!-- Selector de idioma -->
+  <h2>{{ 'SETTINGS.LANGUAGE' | translate }}</h2>
+  <ion-item>
+    <ion-select [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange($event.detail.value)">
+      <ion-select-option *ngFor="let lang of languages" [value]="lang.value">
+        {{ lang.label }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Selector de tema -->
+  <h2>Tema</h2>
+  <ion-item>
+    <ion-select [(ngModel)]="selectedTheme" (ionChange)="onThemeChange($event.detail.value)">
+      <ion-select-option *ngFor="let theme of themes" [value]="theme.value">
+        {{ theme.label }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Vista previa del color -->
+  <div class="theme-preview">
+    <p><strong>Color actual:</strong></p>
+    <div 
+      class="preview-box"
+      [style.background]="selectedThemePreview">
+    </div>
+    <p class="preview-text">{{ selectedThemePreview }}</p>
+  </div>
+
+  <!-- Campos personalizados -->
+  <div *ngIf="selectedTheme === 'custom'" class="custom-fields">
+    <h3>Personalizar colores</h3>
+    
     <ion-item>
-      <ion-label>{{ 'SETTINGS.LANGUAGE' | translate }}</ion-label>
-      <ion-select [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange($event.detail.value)">
-        <ion-select-option *ngFor="let l of languages" [value]="l.value">{{ l.label }}</ion-select-option>
-      </ion-select>
+      <ion-label position="stacked">Color primario (formato hex)</ion-label>
+      <ion-input 
+        [(ngModel)]="customPrimary" 
+        placeholder="#0054e9"
+        (ionChange)="updatePreview()">
+      </ion-input>
     </ion-item>
-  </ion-list>
+
+    <ion-item>
+      <ion-label position="stacked">Color de fondo (formato hex)</ion-label>
+      <ion-input 
+        [(ngModel)]="customBackground" 
+        placeholder="#f4f5f8"
+        (ionChange)="updatePreview()">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="primary" (click)="saveCustomTheme()" class="save-custom-btn">
+      Guardar tema personalizado
+    </ion-button>
+  </div>
 </ion-content>

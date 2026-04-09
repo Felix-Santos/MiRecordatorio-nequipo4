@@ -105,3 +105,69 @@ ion-datetime {
   --background: var(--ion-item-background, #ffffff);
   color: var(--ion-text-color, #000);
 }
+
+/* Estilos para opciones del select dropdown */
+.alert {
+  --background: var(--ion-item-background, #ffffff) !important;
+  --color: var(--ion-text-color, #111) !important;
+  --ion-text-color: var(--ion-text-color, #111) !important;
+}
+
+.alert-option {
+  color: var(--ion-text-color, #111) !important;
+}
+
+.alert-button {
+  color: var(--ion-color-primary, #0054e9) !important;
+}
+
+/* Estilos para ion-select options */
+ion-select-option {
+  color: var(--ion-text-color, #111) !important;
+}
+
+/* Popover y Alert estilos adicionales */
+.ion-popover .ion-item,
+.alert .ion-item {
+  --color: var(--ion-text-color, #111) !important;
+  --background: var(--ion-item-background, #ffffff) !important;
+}
+
+/* Asegurar que el texto en popovers sea visible */
+.ion-popover ion-item-option,
+.ion-popover ion-radio-group,
+.ion-popover ion-checkbox {
+  color: var(--ion-text-color, #111) !important;
+}
+
+/* Estilos para ion-select text dentro del componente */
+ion-select {
+  --color: var(--ion-text-color, #111) !important;
+  color: var(--ion-text-color, #111) !important;
+}
+
+/* Forzar estilos en el alert que abre el select */
+.alert-title,
+.alert-sub-title,
+.alert-message {
+  color: var(--ion-text-color, #111) !important;
+}
+
+/* Estilos específicos para los radio buttons/items dentro del alert */
+.alert .ion-item-interactive,
+.alert ion-item {
+  --color: var(--ion-text-color, #111) !important;
+  --background: var(--ion-item-background, #ffffff) !important;
+}
+
+/* Forzar color en los labels del alert */
+.alert ionx-item-label,
+.alert ion-label {
+  color: var(--ion-text-color, #111) !important;
+}
+
+/* Estilos para popovers también */
+.ion-popover {
+  --background: var(--ion-item-background, #ffffff) !important;
+  --color: var(--ion-text-color, #111) !important;
+}

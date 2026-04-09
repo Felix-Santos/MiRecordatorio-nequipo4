@@ -1,107 +1,182 @@
-# 📱 Mi Recordatorio – Equipo 4
 
-##  Descripción General
+ # Mi Recordatorio — Documentación del proyecto
 
-**Mi Recordatorio** es una aplicación móvil desarrollada con el objetivo de facilitar la gestión de tareas académicas y personales. La aplicación permite a los usuarios organizar sus actividades de manera eficiente, priorizando tareas, estableciendo fechas y llevando un control claro de su estado.
+ Última actualización: 9 de abril de 2026
 
----
+ ## Resumen
 
-## Objetivo de la Aplicación
+ Mi Recordatorio es una aplicación móvil/web de gestión de tareas desarrollada con Ionic + Angular y Capacitor. Permite registrar usuarios, crear y administrar tareas (con historial y papelera) y personalizar la apariencia (tema/color). El proyecto incluye una implementación de persistencia local lista para producción mediante `@ionic/storage-angular` con preferencia por driver SQLite en entornos nativos, y fallback a IndexedDB/localStorage en navegadores.
 
-Proporcionar a los usuarios una herramienta intuitiva y funcional que les permita:
+ ## Tecnologías utilizadas
 
-- Gestionar tareas de forma sencilla
-- Mantener un seguimiento de actividades pendientes y completadas
-- Organizar su tiempo mediante fechas y prioridades
-- Visualizar información de manera clara y estructurada
+ - **Ionic Framework** (Ionic Angular)
+ - **Angular 20**
+ - **Capacitor** (v8)
+ - **@ionic/storage-angular** (persistencia)
+ - **@capacitor-community/sqlite** (opcional, recomendado en móviles)
+ - **RxJS** (BehaviorSubject, Observables)
+ - **TypeScript, SCSS, HTML**
 
----
+ ## Estructura principal del repositorio
 
-## ⚙️ Funcionalidades Implementadas
+ - `src/app/` — código Angular / Ionic (páginas, servicios, modelos)
+	 - `pages/` — vistas (login, lista-tareas, nueva-tarea, settings, etc.)
+	 - `services/` — servicios principales: autenticación, tareas, settings, storage, translate
+	 - `models/` — modelos TypeScript (Task, TaskHistory, etc.)
+ - `src/global.scss` — variables y estilos globales (tema por defecto)
+ - `src/theme/variables.scss` — variables temáticas usadas por Ionic
 
-Hasta el momento, la aplicación cuenta con las siguientes funcionalidades:
+ ## Cómo ejecutar (desarrollo)
 
-Pantallas de la aplicación.
-La aplicación contará con las siguientes pantallas principales, diseñadas para ofrecer una experiencia de usuario clara, intuitiva y eficiente:
-Pantalla de lista de tareas.
-Será la pantalla principal de la aplicación, donde el usuario podrá visualizar todas las tareas registradas junto con su prioridad, fecha límite y estado. Además, permitirá acceder rápidamente a funciones como agregar, editar, completar o eliminar tareas mediante botones e iconos interactivos.
-Pantalla para agregar tarea.
-Permitirá registrar nuevas tareas mediante un formulario estructurado que incluirá campos como descripción, fecha límite, prioridad y categoría. También incorporará la opción de entrada por voz para facilitar el registro rápido de información.
-Pantalla para editar tarea.
-Permitirá modificar la información de una tarea previamente creada, incluyendo la actualización de su contenido, cambio de prioridad o categoría, así como la opción de eliminarla o marcarla como completada.
-Pantalla de calendario.
-Permitirá visualizar las tareas organizadas según su fecha límite dentro de una estructura de calendario, facilitando la planificación y el seguimiento temporal de las actividades.
-Pantalla de papelera de tareas
-Permitirá visualizar las tareas eliminadas temporalmente, brindando la posibilidad de restaurarlas o eliminarlas de forma definitiva, evitando pérdidas accidentales de información.
-Pantalla de historial.
-Mostrará un registro detallado de las acciones realizadas sobre las tareas, tales como creación, modificación, eliminación y finalización, permitiendo al usuario llevar un control de sus actividades.
-Pantalla de inicio de sesión.
-Permitirá al usuario autenticarse mediante el ingreso de credenciales, garantizando el acceso seguro a su información personal dentro de la aplicación.
+ ```bash
+ npm install
+ npm start      # usa `ng serve` (ver package.json)
+ ```
 
-## 🧱 Estado Actual del Proyecto
+ Abrir en navegador: `http://localhost:4200`.
 
-El proyecto se encuentra en una fase funcional intermedia, donde:
+ Build de producción (web):
 
-- Se ha completado la estructura principal de la aplicación
-- Se han diseñado e implementado las interfaces de usuario
-- Se ha logrado la navegación entre todas las pantallas
-- Se han integrado funcionalidades básicas de interacción
+ ```bash
+ npm run build
+ ```
 
-🔄 **Pendiente (mejoras futuras):**
-- Persistencia de datos (almacenamiento real)
-- Integración con base de datos o almacenamiento local
-- Validaciones avanzadas
-- Optimización de experiencia de usuario
+ Para ejecutar en dispositivo/emulador (Capacitor):
 
----
+ ```bash
+ npm install @capacitor-community/sqlite
+ npx cap sync
+ npx cap open android   # o ios
+ ```
 
-## Tecnologías Utilizadas.
+ ## Persistencia y configuración para producción
 
-El desarrollo de la aplicación se ha realizado utilizando un conjunto de tecnologías modernas orientadas al desarrollo de aplicaciones móviles híbridas:
+ El proyecto usa `@ionic/storage-angular` con `driverOrder` preferente `['sqlite','indexeddb','localstorage']`. En entornos nativos (Android/iOS) se recomienda instalar el plugin nativo `@capacitor-community/sqlite` para persistencia robusta y rendimiento.
 
-- **Ionic Framework** – Framework principal para la construcción de interfaces móviles multiplataforma.
-- **Angular** – Estructura y arquitectura de la aplicación, manejo de componentes y navegación.
-- **TypeScript** – Lenguaje de programación tipado utilizado para la lógica del sistema.
-- **HTML5** – Estructura de las vistas de la aplicación.
-- **SCSS (CSS avanzado)** – Diseño visual, estilos personalizados y responsividad.
-- **Capacitor** – Plataforma que permite la ejecución de la aplicación como app móvil nativa (Android/iOS).
-- **Node.js** – Entorno de ejecución utilizado para la gestión de dependencias del proyecto.
-- **NPM** – Gestor de paquetes para instalar y administrar librerías.
-- **Ionic CLI** – Herramienta de línea de comandos utilizada para crear, ejecutar y construir la aplicación.
+ - Configuración en: [src/app/app.module.ts](src/app/app.module.ts)
+ - Enlace del plugin SQLite: `npm install @capacitor-community/sqlite` y luego `npx cap sync`.
 
----
+ Fallback: si la creación del driver de Ionic Storage falla, el `StorageService` implementa un fallback a `localStorage` para garantizar que los datos no se pierdan.
 
-## 🧑‍💻 Equipo de Desarrollo
+ ## Servicios clave (explicación y uso)
 
-**Equipo 4**
+ A continuación se describe la responsabilidad y las funciones principales de cada servicio importante.
 
-- Félix María Santos García  
-- Juan Luis Dias.
-- William Antonio.
-- Eric Arturo.
-- Leonardo Terrero.
+ **AuthService** — Gestión de usuarios y sesión
+ - Archivo: [src/app/services/auth.service.ts](src/app/services/auth.service.ts)
+ - Qué hace: registra usuarios, realiza login/logout y expone `currentUser$` (Observable) para que la UI reaccione a cambios de sesión.
+ - API importante:
+	 - `register(username, email, password): Observable<boolean>` — crea usuario (demo: contraseñas en texto plano, no apto para producción)
+	 - `login(username, password): Observable<boolean>` — valida credenciales y guarda sesión
+	 - `logout()` — cierra sesión
+	 - `getCurrentUser()` / `isAuthenticated()`
+ - Persistencia: usa `StorageService` para persistir la lista de usuarios y la sesión actual.
+ - Nota de seguridad: actualmente guarda contraseñas en texto plano (solo demo). En producción hay que mover autenticación a un backend y almacenar hashes.
 
----
+ **TaskService** — Gestión de tareas y historial
+ - Archivo: [src/app/services/task.service.ts](src/app/services/task.service.ts)
+ - Qué hace: mantiene un array de tareas y de historial, expone `tasks$` y `deletedTasks$` como BehaviorSubjects.
+ - API importante:
+	 - `getTasks()` / `getDeletedTasks()` / `getHistory()`
+	 - `addTask(taskData)` — crea tarea vinculada al usuario actual
+	 - `updateTask(id, updates)` — edita tarea
+	 - `deleteTask(id)` — soft-delete (papelera)
+	 - `restoreTask(id)` — restaura desde papelera
+	 - `permanentlyDeleteTask(id)` — borra definitivamente
+	 - `toggleComplete(id)` — marca/completa tarea
+ - Persistencia: guarda `tasks` e `history` en `StorageService`.
+ - Observabilidad: `TaskService` se suscribe a `AuthService.currentUser$` para filtrar las tareas del usuario autenticado y actualizar la UI cuando cambia la sesión.
 
-## 📁 Estructura del Proyecto
+ **SettingsService** — Idioma y tema
+ - Archivo: [src/app/services/settings.service.ts](src/app/services/settings.service.ts)
+ - Qué hace: administra `language$` y `theme$` (BehaviorSubjects), aplica cambios al `document.documentElement` modificando variables CSS (`--ion-color-primary`, `--ion-background-color`, etc.).
+ - Presets incluidos: `default`, `blue`, `green`, `red`, `dark`, `custom`.
+ - Persistencia: guarda configuración en `StorageService`.
+ - Cómo usar: `setTheme('green')` o `setCustomTheme({ primary, primaryRgb, contrast, background })`.
 
-El proyecto está organizado siguiendo una estructura modular que facilita su mantenimiento:
-src/
-├── app/
-│ ├── pages/ (pantallas de la aplicación)
-│ ├── components/ (componentes reutilizables)
-│ ├── services/ (lógica y manejo de datos)
-│
-├── assets/ (recursos estáticos)
-├── theme/ (estilos globales)
+ **TranslateService** — Traducciones simples
+ - Archivo: [src/app/services/translate.service.ts](src/app/services/translate.service.ts)
+ - Qué hace: almacena un diccionario de traducciones en memoria (ES/EN) y expone `lang$` y `translate(key, params?)`.
+ - Persistencia del idioma: usa `StorageService`.
+ - Uso en plantillas: hay un `TranslatePipe` que utiliza `TranslateService` para resolver claves.
 
+ **StorageService** — Envoltorio de persistencia
+ - Archivo: [src/app/services/storage.service.ts](src/app/services/storage.service.ts)
+ - Qué hace: crea y expone métodos `ready()`, `set(key,value)`, `get(key)`, `remove(key)`.
+ - Driver preferente: intenta crear el driver de Ionic Storage (con la configuración de `AppModule`). Si falla, usa `localStorage` como fallback para asegurar persistencia en navegador.
 
----
+ ## Páginas / Vistas importantes
 
-## 🚀 Ejecución del Proyecto
+ - `src/app/pages/login/` — login y registro de usuario
+ - `src/app/pages/lista-tareas/` — lista principal de tareas (filtrado por usuario autenticado)
+ - `src/app/pages/nueva-tarea/` — formulario para crear tareas
+ - `src/app/pages/editar-tarea/` — editar tarea existente
+ - `src/app/pages/papelera/` — tareas eliminadas
+ - `src/app/pages/historial/` — historial de acciones
+ - `src/app/pages/settings/` — configuración (idioma + tema) — archivos: [src/app/pages/settings/settings.page.ts](src/app/pages/settings/settings.page.ts), [src/app/pages/settings/settings.page.html](src/app/pages/settings/settings.page.html)
 
-Para ejecutar la aplicación en un entorno local:
+ ## Theming (cambiar color de la app)
 
-```bash
-npm install
-ionic serve
+ - Variables principales: `--ion-color-primary`, `--ion-background-color`, `--ion-text-color` definidas en [src/global.scss](src/global.scss) y [src/theme/variables.scss](src/theme/variables.scss).
+ - Valor por defecto actual: `#0054e9` (variable `--ion-color-primary` en `src/global.scss`).
+ - La pantalla de Ajustes permite escoger presets, y también crear un tema `custom` con `primary` y `background` en hex. La opción **Predeterminado** aplica el color actual (lee `--ion-color-primary`).
+
+ ## Seguridad y recomendaciones para producción
+
+ - NO almacenar contraseñas en texto plano. Migrar autenticación a un backend que devuelva tokens (JWT) y almacenar solo tokens en almacenamiento seguro.
+ - Para móviles, usar `@capacitor-community/sqlite` y/o plugins de almacenamiento seguro para tokens/credenciales.
+ - Forzar HTTPS en backend y usar CORS correctamente.
+ - Validar entradas de usuario y sanitizar datos que puedan mostrarse en la UI.
+
+ ## Extensiones y mejoras sugeridas
+
+ - Conectar con backend real (Node/Express + PostgreSQL, o Firebase Auth + Firestore).
+ - Implementar manejo de usuarios remotos (servicio REST) y sincronización offline/online.
+ - Añadir tests unitarios (Jasmine/Karma o Jest) para servicios críticos (`AuthService`, `TaskService`).
+ - Usar Secure Storage para tokens (`@ionic-native/secure-storage-echo` o soluciones nativas en Capacitor).
+
+ ## Troubleshooting
+
+ - Si los datos no persisten en navegador:
+	 - Verifica en DevTools → Application → IndexedDB / LocalStorage las claves `users`, `tasks`, `taskHistory`, `app_language`, `app_theme`.
+	 - Si hay tema guardado previamente, borra almacenamiento o `localStorage.clear()` para forzar reset.
+ - Si `@ionic/storage-angular` no crea el driver, el `StorageService` usa `localStorage` como fallback.
+ - Si la ruta de Ajustes no aparece, revisa `src/app/app-routing.module.ts` (la ruta `/settings` fue añadida).
+
+ ## Referencias de archivos (lectura rápida)
+
+ - `App Module`: [src/app/app.module.ts](src/app/app.module.ts)
+ - `Storage wrapper`: [src/app/services/storage.service.ts](src/app/services/storage.service.ts)
+ - `Auth service`: [src/app/services/auth.service.ts](src/app/services/auth.service.ts)
+ - `Task service`: [src/app/services/task.service.ts](src/app/services/task.service.ts)
+ - `Settings service`: [src/app/services/settings.service.ts](src/app/services/settings.service.ts)
+ - `Translate service`: [src/app/services/translate.service.ts](src/app/services/translate.service.ts)
+ - `Settings page`: [src/app/pages/settings/settings.page.ts](src/app/pages/settings/settings.page.ts)
+ - `Global styles`: [src/global.scss](src/global.scss)
+
+ ## Comandos útiles
+
+ ```bash
+ # instalar dependencias
+ npm install
+
+ # desarrollo
+ npm start
+
+ # build web
+ npm run build
+
+ # instalar plugin sqlite nativo (recomendado)
+ npm install @capacitor-community/sqlite
+ npx cap sync
+ npx cap open android   # o ios
+ ```
+
+ ---
+
+ Si quieres, puedo:
+ - Añadir un archivo `docs/ARCHITECTURE.md` con diagramas y flujos.
+ - Generar comentarios en línea más detallados para cada archivo del `src/app/services`.
+ - Crear una guía de despliegue paso a paso para Android/iOS (incluyendo permisos y configuración SQLite).
+
+ Dime qué prefieres que haga a continuación.

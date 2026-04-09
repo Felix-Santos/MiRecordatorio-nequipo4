@@ -1,11 +1,72 @@
 ion-item {
   --inner-padding-end: 12px;
+  color: var(--ion-text-color, #111);
+}
+
+ion-select {
+  color: var(--ion-text-color, #111) !important;
+  --color: var(--ion-text-color, #111) !important;
+  --background: var(--ion-item-background, #ffffff) !important;
+}
+
+ion-select::part(text) {
+  color: var(--ion-text-color, #111) !important;
+}
+
+ion-input {
+  color: var(--ion-text-color, #111);
+}
+
+ion-label {
+  color: var(--ion-text-color, #111);
+}
+
+h2, h3 {
+  color: var(--ion-text-color, #111);
 }
 
 .custom-fields {
-  margin-top: 10px;
+  margin-top: 20px;
+}
+
+.save-custom-btn {
+  margin-top: 15px;
 }
 
 .actions {
-  margin-top: 16px;
+  margin-top: 20px;
+}
+
+.theme-preview {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--ion-item-background, #fff);
+  border: 1px solid var(--ion-color-primary);
+  margin-bottom: 20px;
+
+  p {
+    margin: 5px 0;
+    color: var(--ion-text-color, #111);
+  }
+
+  strong {
+    color: var(--ion-text-color, #111);
+  }
+}
+
+.preview-box {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid var(--ion-color-primary);
+  margin: 10px 0;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.preview-text {
+  margin-top: 10px;
+  color: var(--ion-text-color, #666);
+  font-size: 12px !important;
+  font-family: monospace;
 }

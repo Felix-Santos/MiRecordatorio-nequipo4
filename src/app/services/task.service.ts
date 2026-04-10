@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Task, TaskHistory } from '../models/task.model';
 import { AuthService } from './auth.service';
 import { StorageService } from './storage.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class TaskService {
   private readonly TASKS_KEY = 'tasks';
   private readonly HISTORY_KEY = 'taskHistory';
 
-  constructor(private authService: AuthService, private storageService: StorageService) {
+  constructor(private authService: AuthService, private storageService: StorageService, private notificationService: NotificationService) {
     // Suscribirse a cambios de usuario para actualizar la vista de tareas
     this.authService.currentUser$.subscribe(() => this.updateTasksSubject());
     // Inicialización asíncrona: cargar tareas desde StorageService
@@ -49,6 +50,9 @@ export class TaskService {
     }
 
     this.updateTasksSubject();
+    
+    // Reprogramar notificaciones después de cargar las tareas
+    await this.notificationService.reprogramAllNotifications(this.tasks);
   }
 
   /**
@@ -180,6 +184,10 @@ export class TaskService {
     this.tasks.push(newTask);
     this.addToHistory(newTask.id, 'created', null, newTask);
     void this.saveToStorage();
+    
+    // Programar notificación para la nueva tarea
+    void this.notificationService.scheduleNotification(newTask);
+    
     this.updateTasksSubject();
   }
 
@@ -193,6 +201,10 @@ export class TaskService {
       this.tasks[index] = { ...this.tasks[index], ...updates, updatedAt: new Date().toISOString() };
       this.addToHistory(id, 'updated', oldTask, this.tasks[index]);
       void this.saveToStorage();
+      
+      // Reprogramar la notificación si la tarea se actualizó
+      void this.notificationService.scheduleNotification(this.tasks[index]);
+      
       this.updateTasksSubject();
     }
   }
@@ -207,6 +219,10 @@ export class TaskService {
       task.deletedAt = new Date().toISOString();
       this.addToHistory(id, 'deleted', oldTask, task);
       void this.saveToStorage();
+      
+      // Cancelar la notificación de la tarea eliminada
+      void this.notificationService.cancelNotification(id);
+      
       this.updateTasksSubject();
     }
   }
@@ -222,6 +238,10 @@ export class TaskService {
       task.updatedAt = new Date().toISOString();
       this.addToHistory(id, 'restored', oldTask, task);
       void this.saveToStorage();
+      
+      // Reprogramar la notificación después de restaurar
+      void this.notificationService.scheduleNotification(task);
+      
       this.updateTasksSubject();
     }
   }
@@ -230,6 +250,9 @@ export class TaskService {
    * Elimina permanentemente una tarea
    */
   permanentlyDeleteTask(id: number): void {
+    // Cancelar la notificación antes de eliminar
+    void this.notificationService.cancelNotification(id);
+    
     this.tasks = this.tasks.filter(task => task.id !== id);
     void this.saveToStorage();
     this.updateTasksSubject();
@@ -248,6 +271,14 @@ export class TaskService {
       task.updatedAt = new Date().toISOString();
       this.addToHistory(id, newCompleted ? 'completed' : 'updated', oldTask, task);
       void this.saveToStorage();
+      
+      // Si se completó, cancelar la notificación; si se descompleta, programarla de nuevo
+      if (newCompleted) {
+        void this.notificationService.cancelNotification(id);
+      } else {
+        void this.notificationService.scheduleNotification(task);
+      }
+      
       this.updateTasksSubject();
     }
   }

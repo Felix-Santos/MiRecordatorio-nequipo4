@@ -4,3 +4,4 @@ www/
 dist/
 .env
 .vscode/
+*.msi

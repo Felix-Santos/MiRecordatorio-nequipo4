@@ -47,8 +47,8 @@
     {{ isRegisterMode ? ('LOGIN.ALREADY_HAVE_ACCOUNT' | translate) : ('LOGIN.DONT_HAVE_ACCOUNT' | translate) }}
   </ion-button>
 
-  <ion-text color="medium" class="demo-info">
-    <p>{{ 'DEMO.INFO' | translate }}</p>
-  </ion-text>
+  <ion-button expand="block" fill="outline" color="danger" *ngIf="!isRegisterMode" (click)="onExit()">
+    {{ 'LOGIN.EXIT' | translate }}
+  </ion-button>
 
 </ion-content>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas de Arquitectura - MiRecordatorio</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        header p {
+            color: #666;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .tech-badge {
+            background: #f0f2f5;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #667eea;
+            font-weight: 500;
+            border: 2px solid #667eea;
+        }
+        
+        .diagram-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            page-break-inside: avoid;
+        }
+        
+        .diagram-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .diagram-section p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+        
+        footer {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+        
+        .legend {
+            background: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .legend h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .legend ul {
+            list-style-position: inside;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .diagram-section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .tech-stack {
+                flex-direction: column;
+            }
+            
+            .tech-badge {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 ARQUITECTURA DE LA APP</h1>
+            <h2 style="color: #764ba2; font-size: 1.2em; margin: 15px 0;">MiRecordatorio - Sistema de Gestión de Tareas</h2>
+            <p><strong>Tipo de Proyecto:</strong> Aplicación Móvil Híbrida (Angular + Ionic + Capacitor)</p>
+            <p><strong>Plataforma Objetivo:</strong> Android 11+</p>
+            <p><strong>Fecha de Generación:</strong> 10 de abril de 2026</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Angular 20</span>
+                <span class="tech-badge">Ionic 8</span>
+                <span class="tech-badge">Capacitor 8.2</span>
+                <span class="tech-badge">Firebase 11</span>
+                <span class="tech-badge">SQLite</span>
+                <span class="tech-badge">RxJS 7</span>
+            </div>
+        </header>
+
+        <div class="diagram-section">
+            <h2>1. Arquitectura General en Capas</h2>
+            <p>La aplicación sigue una arquitectura de <strong>3 capas cleares</strong>:</p>
+            <ul style="list-style-position: inside; margin-bottom: 20px; line-height: 1.8;">
+                <li><strong>Capa de Presentación:</strong> 8 páginas (Login, ListaTareas, Nueva/Editar, Historial, Papelera, Calendario, Settings)</li>
+                <li><strong>Capa de Servicios:</strong> 7 servicios inyectables que manejan toda la lógica de negocio</li>
+                <li><strong>Capa de Persistencia:</strong> SQLite para datos persisten + LocalStorage para configuración</li>
+                <li><strong>Servicios Externos:</strong> Firebase para autenticación, Capacitor para APIs nativas</li>
+            </ul>
+            <div class="mermaid">
+graph TB
+    subgraph Presentacion["CAPA DE PRESENTACIÓN"]
+        LoginP["Login Page"]
+        ListaP["Lista Tareas Page"]
+        NuevaP["Nueva Tarea Page"]
+        EditarP["Editar Tarea Page"]
+        HistorialP["Historial Page"]
+        PapeleraP["Papelera Page"]
+        CalendarioP["Calendario Page"]
+        SettingsP["Settings Page"]
+    end
+    
+    subgraph Servicios["CAPA DE SERVICIOS - LÓGICA DE NEGOCIO"]
+        AuthS["AuthService<br/>currentUser$"]
+        TaskS["TaskService<br/>tasks$, deletedTasks$"]
+        NotifS["NotificationService"]
+        TranslateS["TranslateService<br/>i18n"]
+        SettingsS["SettingsService"]
+        StorageS["StorageService"]
+        DateS["DateFormatterService"]
+    end
+    
+    subgraph Persistencia["CAPA DE PERSISTENCIA"]
+        SQLite["SQLite<br/>@capacitor/sqlite"]
+        LocalStorage["LocalStorage"]
+    end
+    
+    subgraph Externos["SERVICIOS EXTERNOS"]
+        Firebase["Firebase<br/>Auth & Realtime"]
+        Capacitor["Capacitor<br/>Notificaciones"]
+    end
+    
+    LoginP --> AuthS
+    ListaP --> TaskS
+    NuevaP --> TaskS
+    EditarP --> TaskS
+    HistorialP --> TaskS
+    PapeleraP --> TaskS
+    CalendarioP --> TaskS
+    SettingsP --> SettingsS
+    
+    TaskS --> StorageS
+    AuthS --> StorageS
+    SettingsS --> StorageS
+    NotifS --> Capacitor
+    TranslateS --> ListaP
+    
+    StorageS --> SQLite
+    StorageS --> LocalStorage
+    AuthS --> Firebase
+            </div>
+            <div class="legend">
+                <h4>📌 Notas Importantes:</h4>
+                <ul>
+                    <li>Todos los servicios usan inyección de dependencias con <code>providedIn: 'root'</code></li>
+                    <li>Las páginas son componentes standalone nativos de Angular 20</li>
+                    <li>Existe un patrón de Observable reactivo usando RxJS BehaviorSubject</li>
+                    <li>Firebase proporciona autenticación, SQLite maneja datos locales</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>2. Flujo de Datos - Gestión de Tareas</h2>
+            <p>Este diagrama muestra <strong>cómo fluyen los datos</strong> cuando un usuario crea, edita o consulta una tarea:</p>
+            <div class="mermaid">
+graph LR
+    subgraph Usuario["Usuario"]
+        U["👤 Usuario Autenticado"]
+    end
+    
+    subgraph UI["INTERFAZ"]
+        LT["Lista Tareas<br/>con tareas$"]
+        NT["Nueva Tarea<br/>formulario"]
+        ET["Editar Tarea<br/>formulario"]
+    end
+    
+    subgraph Servicios["SERVICIOS"]
+        TS["TaskService<br/>BehaviorSubject"]
+        SS["StorageService<br/>persistencia"]
+        NS["NotificationService"]
+    end
+    
+    subgraph BD["ALMACENAMIENTO"]
+        DB["SQLite +<br/>LocalStorage"]
+    end
+    
+    subgraph Nativo["ANDROID NATIVO"]
+        NOT["Notificaciones<br/>Locales"]
+    end
+    
+    U -->|crear/editar| NT
+    U -->|crear/editar| ET
+    NT -->|guardar| TS
+    ET -->|actualizar| TS
+    TS -->|emite| LT
+    TS -->|persiste| SS
+    SS -->|lee/escribe| DB
+    TS -->|programa| NS
+    NS -->|muestra| NOT
+    DB -->|recupera| TS
+            </div>
+            <div class="legend">
+                <h4>🔄 Ciclo de Vida de una Tarea:</h4>
+                <ul>
+                    <li><strong>1. Usuario crea tarea:</strong> Rellena formulario en Nueva Tarea</li>
+                    <li><strong>2. Guarda en TaskService:</strong> addTask() actualiza BehaviorSubject</li>
+                    <li><strong>3. Se persiste:</strong> StorageService escribe en SQLite</li>
+                    <li><strong>4. Se emite:</strong> TaskService dispara tasks$ a ListaTareas</li>
+                    <li><strong>5. Se notifica:</strong> NotificationService programa aviso en Android</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>3. Modelo de Datos y Relaciones</h2>
+            <p>Estructura de las entidades principales almacenadas en SQLite:</p>
+            <div class="mermaid">
+erDiagram
+    USER ||--o{ TASK : creates
+    USER ||--o{ TASKHISTORY : tracks
+    TASK ||--o{ TASKHISTORY : has
+    TASK {
+        number id PK
+        number userId FK
+        string title
+        string description
+        string date
+        string status
+        string priority
+        boolean completed
+        string createdAt
+        string updatedAt
+        number notifyBeforeMinutes
+        string deletedAt "soft delete"
+    }
+    
+    USER {
+        number id PK
+        string email
+        string name
+        boolean isLoggedIn
+        string currentLanguage
+        string currentTheme
+    }
+    
+    TASKHISTORY {
+        number id PK
+        number taskId FK
+        number userId FK
+        string action
+        string oldValue
+        string newValue
+        string timestamp
+    }
+            </div>
+            <div class="legend">
+                <h4>🗂️ Características del Modelo:</h4>
+                <ul>
+                    <li><strong>Soft Delete:</strong> Las tareas eliminadas usan el campo <code>deletedAt</code> (no se borran de BD)</li>
+                    <li><strong>Auditoría Completa:</strong> TaskHistory registra TODAS las operaciones (create, update, complete, delete)</li>
+                    <li><strong>Multiusuario Ready:</strong> userId vincula datos con usuario autenticado</li>
+                    <li><strong>Internacionalización:</strong> USER guarda preferencias de idioma y tema</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>4. Flujo de Autenticación y Notificaciones</h2>
+            <p>Proceso completo desde que el usuario abre la app hasta recibir una notificación:</p>
+            <div class="mermaid">
+graph TD
+    A["Usuario Abre App"] --> B{¿Autenticado?}
+    B -->|No| C["LoginPage"]
+    C -->|Ingresa Credenciales| D["AuthService.login()"]
+    D -->|Valida| E["Firebase Auth"]
+    E -->|Ok| F["Guarda currentUser$"]
+    B -->|Si| G["ListaTareasPage"]
+    
+    F --> G
+    
+    G --> H["Carga tasks$ del TaskService"]
+    H --> I["StorageService recupera de SQLite"]
+    I --> J["TaskService emite Observable"]
+    J --> K["Renderiza Lista"]
+    
+    K --> L["Usuario crea Tarea"]
+    L --> M["Nueva Tarea con fecha + notificación"]
+    M --> N["TaskService.addTask()"]
+    N --> O["Persiste en SQLite"]
+    O --> P["NotificationService.scheduleNotification()"]
+    P --> Q["Calcula tiempo: fecha - notifyBefore"]
+    Q --> R["Capacitor envía a Android"]
+    R --> S["Notificación en bandeja a la hora"]
+    
+    S --> T["Usuario abre notificación"]
+    T --> G
+            </div>
+            <div class="legend">
+                <h4>⏰ Sistema de Notificaciones:</h4>
+                <ul>
+                    <li><strong>Programación:</strong> Se calcula como <code>fecha - notifyBeforeMinutes</code></li>
+                    <li><strong>Persistencia:</strong> No se pierden al cerrar app (usa Capacitor)</li>
+                    <li><strong>Cancelación:</strong> Se cancela cuando se marca como completada</li>
+                    <li><strong>Reprogramación:</strong> Se reprograma si se edita la tarea</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>5. Estados de Tarea y Ciclo de Vida</h2>
+            <p>Diagrama de estados que una tarea puede atravesar durante su vida en la aplicación:</p>
+            <div class="mermaid">
+stateDiagram-v2
+    [*] --> Pendiente
+    
+    Pendiente --> Completada: user completa
+    Pendiente --> Papelera: user elimina (soft delete)
+    Pendiente --> Editada: user modifica
+    
+    Completada --> Pendiente: user descompleta
+    Completada --> Papelera: user elimina
+    
+    Editada --> Pendiente: cambios aplicados
+    Editada --> Completada: cambios + completa
+    
+    Papelera --> Pendiente: user restaura
+    Papelera --> [*]: vaciar papelera (hard delete)
+    
+    note right of Pendiente
+        - Registrada en TaskHistory
+        - Notificación activa
+        - Visible en lista + calendario
+    end note
+    
+    note right of Completada
+        - Fecha completedAt guardada
+        - Notificación cancelada
+        - Visible en historial
+    end note
+    
+    note right of Papelera
+        - Soft delete (deletedAt != null)
+        - No aparece en vista normal
+        - Recuperable
+    end note
+            </div>
+            <div class="legend">
+                <h4>🔄 Explicación de Estados:</h4>
+                <ul>
+                    <li><strong>Pendiente:</strong> Tarea nueva, sin completar. Es el estado inicial.</li>
+                    <li><strong>Completada:</strong> Usuario marcó como hecha. Se guarda timestamp de completado.</li>
+                    <li><strong>Papelera:</strong> Tarea eliminada (soft delete). Se puede recuperar o eliminar permanentemente.</li>
+                    <li><strong>Editada:</strong> Estado transitorio cuando se modifica. Vuelve a Pendiente o pasa a Completada.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>MiRecordatorio - Sistema de Gestión de Tareas</strong></p>
+            <p>Diagramas generados automáticamente | Arquitectura Angular 20 + Ionic 8 + Capacitor</p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: #999;">
+                Para imprimir: Ctrl+P o Cmd+P | Para guardar como PDF: Imprimir → Guardar como PDF
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Configurar Mermaid para mejor renderizado
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true
+            }
+        });
+    </script>
+</body>
+</html>

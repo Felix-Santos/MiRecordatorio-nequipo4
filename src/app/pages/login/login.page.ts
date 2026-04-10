@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../services/translate.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-login',
@@ -80,5 +81,12 @@ export class LoginPage {
   toggleMode(): void {
     this.isRegisterMode = !this.isRegisterMode;
     this.errorMessage = '';
+  }
+
+  /**
+   * Cierra/sale de la aplicación
+   */
+  onExit(): void {
+    App.exitApp();
   }
 }

@@ -48,7 +48,7 @@ export class TranslateService {
       'LOGIN.CREDENTIALS_INVALID': 'Credenciales incorrectas',
       'LOGIN.REGISTER_SUCCESS': 'Usuario registrado exitosamente. Ahora puede iniciar sesión.',
       'LOGIN.USER_EXISTS': 'El usuario o email ya existe',
-      'DEMO.INFO': 'Demo: Usuario: admin, Contraseña: 123456',
+      'LOGIN.EXIT': 'Salir',
 
       // Nueva tarea
       'NEW.TITLE': 'Nueva Tarea',
@@ -143,7 +143,7 @@ export class TranslateService {
       'LOGIN.CREDENTIALS_INVALID': 'Invalid credentials',
       'LOGIN.REGISTER_SUCCESS': 'User registered successfully. You can now log in.',
       'LOGIN.USER_EXISTS': 'User or email already exists',
-      'DEMO.INFO': 'Demo: User: admin, Password: 123456',
+      'LOGIN.EXIT': 'Exit',
 
       // Nueva tarea
       'NEW.TITLE': 'New Task',

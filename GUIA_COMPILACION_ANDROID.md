@@ -1,6 +1,6 @@
-# Guía de Compilación Android - Mi Recordatorio
+﻿# Guía de Compilación Android - Mi Recordatorio
 
-## 🔄 Flujo de Trabajo Capacitor → Android Studio
+## Flujo de Trabajo Capacitor → Android Studio
 
 ### Fase 1: Desarrollo
 ```bash
@@ -32,7 +32,7 @@ Desde Android Studio:
 
 ---
 
-## 📝 Cambios Antes de Play Store
+## Cambios Antes de Play Store
 
 ### 1. Actualizar `capacitor.config.ts`
 ```typescript
@@ -61,7 +61,7 @@ versionName "1.0.0"   // Formato: major.minor.patch
 
 ---
 
-## 🔐 Keystore Management
+## Keystore Management
 
 ### Generar Keystore (primera vez)
 ```bash
@@ -75,7 +75,7 @@ keytool -list -v -keystore mi-recordatorio.keystore
 
 ---
 
-## 🧪 Testing en Dispositivo
+## Testing en Dispositivo
 
 ### Via Android Studio
 ```
@@ -90,7 +90,7 @@ gradlew installDebug
 
 ---
 
-## 📦 Tamaño de la App
+## Tamaño de la App
 
 **Componentes actuales**:
 - Main bundle: 623 kB (JavaScript + Angular)
@@ -101,7 +101,7 @@ gradlew installDebug
 
 ---
 
-## ✅ Checklist Pre-Release
+## Checklist Pre-Release
 
 - [ ] Cambiar `appId` a identificador único
 - [ ] Probar en dispositivo físico
@@ -116,7 +116,7 @@ gradlew installDebug
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Errores de Gradle
 ```bash
@@ -142,7 +142,7 @@ gradlew clean
 
 ---
 
-## 📱 Información de Compilación
+## Información de Compilación
 
 **Dispositivo objetivo**: Android 11+
 **Compilación contra**: Android 35 (esquema Capacitor)
@@ -150,13 +150,14 @@ gradlew clean
 
 ---
 
-## 🎯 Próximos Pasos
+## Próximos Pasos
 
-1. ✅ Abrir `android/` en Android Studio (ya hecho)
+1. Abrir `android/` en Android Studio (ya hecho)
 2. [ ] Esperar a que sync complete (gradle)
 3. [ ] Build → Clean Build
 4. [ ] Run en dispositivo/emulador
 5. [ ] Probar funcionalidades
 6. [ ] Preparar Signed Bundle
 7. [ ] Subir a Play Console
+
 

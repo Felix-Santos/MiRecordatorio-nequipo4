@@ -1,4 +1,4 @@
-# ÍNDICE DE REDUNDANCIAS - REFERENCIA RÁPIDA
+﻿# ÍNDICE DE REDUNDANCIAS - REFERENCIA RÁPIDA
 ## MiRecordatorio Project
 
 **Cantidad total encontrada:** 18 patrones | **Líneas duplicadas:** 450-500 | **Potencial ahorro:** 45-50%
@@ -137,33 +137,33 @@
 ## 📊 MATRIZ DE IMPACTO vs ESFUERZO
 
 ```
-                LOW EFFORT
-                    |
-        ┌───────────────────────────┐
-        |  QUICK WINS               |
-    H   |  • ColorUtilService       |
-    I   |  • DateFormatterService   |
-    G   |  • Constants (L+T)        |
-    H   |  • LocaleService          |
-        |  Tiempo: 1h total         |
-   ╔═══╪═══════════════════════════╪═══╗
-   ║   |  SETTINGS CONSOLIDATION   |   ║
-   ║   |  • Eliminar dup component |   ║
-   ║   |  • Refactor code sharing  |   ║
-   ║   |  CRÍTICO - 2h             |   ║
-   ║   |                           |   ║
-I  ║ M |  • AppHeaderComponent     |   ║ M
-M  ║ E |  • NotifyInputComponent   |   ║ E
-P  ║ D |  • EmptyStateComponent    |   ║ D
-A  ║ I |  Tiempo: 2h total         |   ║ I
-C  ║ U |                           |   ║ U
-T  ║ M |     REFACTORING           |   ║ M
-   ║   |  • Task model cleanup    |   ║
-   ║   |  • Validation helpers    |   ║
-   ║   |  Tiempo: 1.5h total      |   ║
-   ╚═══╪═══════════════════════════╪═══╝
-       |
-     LOW            HIGH EFFORT
+       LOW EFFORT
+        |
+    ┌───────────────────────────┐
+    | QUICK WINS      |
+  H  | • ColorUtilService   |
+  I  | • DateFormatterService  |
+  G  | • Constants (L+T)    |
+  H  | • LocaleService    |
+    | Tiempo: 1h total    |
+  ╔═══╪═══════════════════════════╪═══╗
+  ║  | SETTINGS CONSOLIDATION  |  ║
+  ║  | • Eliminar dup component |  ║
+  ║  | • Refactor code sharing |  ║
+  ║  | CRÍTICO - 2h      |  ║
+  ║  |           |  ║
+I ║ M | • AppHeaderComponent  |  ║ M
+M ║ E | • NotifyInputComponent  |  ║ E
+P ║ D | • EmptyStateComponent  |  ║ D
+A ║ I | Tiempo: 2h total    |  ║ I
+C ║ U |           |  ║ U
+T ║ M |  REFACTORING     |  ║ M
+  ║  | • Task model cleanup  |  ║
+  ║  | • Validation helpers  |  ║
+  ║  | Tiempo: 1.5h total   |  ║
+  ╚═══╪═══════════════════════════╪═══╝
+   |
+  LOW     HIGH EFFORT
 ```
 
 ---
@@ -241,12 +241,12 @@ DAY 3-5:
 
 ## 📈 BENEFICIOS ESPERADOS (Después del refactor)
 
-✅ **Deuda técnica:** Eliminada ~500 líneas  
-✅ **Mantenibilidad:** -45% tiempo en cambios repetitivos  
-✅ **Consistencia:** Una única fuente de verdad  
-✅ **Testing:** Servicios compartidos = menos casos de prueba  
-✅ **Bundle size:** Menos código duplicado = más pequeño  
-✅ **Reusabilidad:** Componentes listos para nuevas features  
+✅ **Deuda técnica:** Eliminada ~500 líneas 
+✅ **Mantenibilidad:** -45% tiempo en cambios repetitivos 
+✅ **Consistencia:** Una única fuente de verdad 
+✅ **Testing:** Servicios compartidos = menos casos de prueba 
+✅ **Bundle size:** Menos código duplicado = más pequeño 
+✅ **Reusabilidad:** Componentes listos para nuevas features 
 
 ---
 
@@ -259,6 +259,7 @@ Para referencias específicas, ver:
 
 ---
 
-**Generado:** 9 de abril de 2026  
-**Proyecto:** MiRecordatorio (Angular/Ionic)  
+**Generado:** 9 de abril de 2026 
+**Proyecto:** MiRecordatorio (Angular/Ionic) 
 **Documentación relacionada:** 3 archivos adicionales en raíz del proyecto
+

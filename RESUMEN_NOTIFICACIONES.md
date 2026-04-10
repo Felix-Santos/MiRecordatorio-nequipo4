@@ -1,39 +1,39 @@
-# ✅ Implementación de Notificaciones Completada
+﻿# ✅ Implementación de Notificaciones Completada
 
 ## 📊 Resumen de Cambios Realizados
 
 ### Archivos Creados/Actualizados:
 
 #### 1. **NotificationService.ts** ✅
-   - Ubicación: `src/app/services/notification.service.ts`
-   - Funcionalidad: Gestiona todas las notificaciones locales
-   - Métodos principales:
-     - `scheduleNotification()` - Programa notificaciones
-     - `cancelNotification()` - Cancela notificaciones
-     - `reprogramAllNotifications()` - Reprograma todas
-     - `showTestNotification()` - Notificación de prueba
-     - `getPendingNotifications()` - Obtiene pendientes
+  - Ubicación: `src/app/services/notification.service.ts`
+  - Funcionalidad: Gestiona todas las notificaciones locales
+  - Métodos principales:
+  - `scheduleNotification()` - Programa notificaciones
+  - `cancelNotification()` - Cancela notificaciones
+  - `reprogramAllNotifications()` - Reprograma todas
+  - `showTestNotification()` - Notificación de prueba
+  - `getPendingNotifications()` - Obtiene pendientes
 
 #### 2. **TaskService.ts** Actualizado ✅
-   - Integración con NotificationService
-   - Métodos modificados:
-     - `addTask()` - Programa notificación al crear
-     - `updateTask()` - Reprograma al editar
-     - `deleteTask()` - Cancela al eliminar
-     - `toggleComplete()` - Cancela/reprograma
-     - `restoreTask()` - Reprograma al restaurar
-     - `loadFromStorage()` - Carga y sincroniza todas
+  - Integración con NotificationService
+  - Métodos modificados:
+  - `addTask()` - Programa notificación al crear
+  - `updateTask()` - Reprograma al editar
+  - `deleteTask()` - Cancela al eliminar
+  - `toggleComplete()` - Cancela/reprograma
+  - `restoreTask()` - Reprograma al restaurar
+  - `loadFromStorage()` - Carga y sincroniza todas
 
 #### 3. **AndroidManifest.xml** ✅
-   - Permisos agregados:
-     - `POST_NOTIFICATIONS` (Android 13+)
-     - `RECEIVE_BOOT_COMPLETED` (notificaciones en startup)
-     - `SCHEDULE_EXACT_ALARM` (notificaciones precisas)
+  - Permisos agregados:
+  - `POST_NOTIFICATIONS` (Android 13+)
+  - `RECEIVE_BOOT_COMPLETED` (notificaciones en startup)
+  - `SCHEDULE_EXACT_ALARM` (notificaciones precisas)
 
 #### 4. **Documentación Completa** ✅
-   - `GUIA_NOTIFICACIONES_ANDROID.md` - Guía paso a paso
-   - `GUIA_COMPILACION_ANDROID.md` - Compilación
-   - `EXPORT_ANDROID_SUMMARY.md` - Resumen
+  - `GUIA_NOTIFICACIONES_ANDROID.md` - Guía paso a paso
+  - `GUIA_COMPILACION_ANDROID.md` - Compilación
+  - `EXPORT_ANDROID_SUMMARY.md` - Resumen
 
 ---
 
@@ -43,19 +43,19 @@
 
 ```
 1. Usuario crea tarea "Reunión" para 16:35 con "notificar 5 min antes"
-   ↓
+  ↓
 2. TaskService.addTask() se ejecuta
-   ↓
+  ↓
 3. Automáticamente llama a NotificationService.scheduleNotification()
-   ↓
+  ↓
 4. La notificación programa para 16:30 en Android
-   ↓
+  ↓
 5. A las 16:30, aparece notificación: "Reunión está por vencer"
-   ↓
+  ↓
 6. Si usuario completa tarea → notificación se cancela
-   ↓
+  ↓
 7. Si usuario usa papelera → notificación se cancela
-   ↓
+  ↓
 8. Si usuario restaura → notificación se reprograma
 ```
 
@@ -88,7 +88,7 @@ O manualmente:
 ### Paso 5: Ejecutar la App
 ```bash
 # En Android Studio:
-Run → Run 'app'  (Shift+F10)
+Run → Run 'app' (Shift+F10)
 ```
 
 ### Paso 6: Probar Notificaciones
@@ -97,10 +97,10 @@ Run → Run 'app'  (Shift+F10)
 1. App abierta en dispositivo
 2. Toca **"+"** para nueva tarea
 3. Rellena:
-   - Título: "Prueba"
-   - Fecha: **HOY en 2 minutos**
-   - Notificar: **1 minuto antes**
-   - Prioridad: Alta
+  - Título: "Prueba"
+  - Fecha: **HOY en 2 minutos**
+  - Notificar: **1 minuto antes**
+  - Prioridad: Alta
 4. **Guarda**
 5. Espera 1 minuto
 6. **Deberías ver la notificación** 🔔
@@ -109,17 +109,17 @@ Run → Run 'app'  (Shift+F10)
 1. Android Studio → View → Tool Windows → Logcat
 2. En el filter, escribe: `NotificationService`
 3. Verás logs como:
-   ```
-   ✅ Notificación programada para tarea 1 a las 2026-04-10T16:35:00.000Z
-   ```
+  ```
+  ✅ Notificación programada para tarea 1 a las 2026-04-10T16:35:00.000Z
+  ```
 
 #### Test 3: Completar Tarea
 1. En la lista de tareas, marca la tarea como completada ✓
 2. Ve a Logcat
 3. Verás:
-   ```
-   ❌ Notificación cancelada para tarea 1
-   ```
+  ```
+  ❌ Notificación cancelada para tarea 1
+  ```
 4. La notificación YA NO aparecerá
 
 ---
@@ -152,31 +152,31 @@ Run → Run 'app'  (Shift+F10)
 ### Si no ves notificaciones:
 
 1. **Verifica Logcat**:
-   ```
-   View → Tool Windows → Logcat
-   Filter: "Notification"
-   ```
+  ```
+  View → Tool Windows → Logcat
+  Filter: "Notification"
+  ```
 
 2. **Resetea permisos**:
-   ```bash
-   adb shell pm grant io.ionic.starter android.permission.POST_NOTIFICATIONS
-   adb reboot
-   ```
+  ```bash
+  adb shell pm grant io.ionic.starter android.permission.POST_NOTIFICATIONS
+  adb reboot
+  ```
 
 3. **Limpia y reinstala**:
-   ```bash
-   Build → Clean Build Folder
-   Run → Run 'app'
-   ```
+  ```bash
+  Build → Clean Build Folder
+  Run → Run 'app'
+  ```
 
 4. **Prueba con fecha futura**:
-   - La tarea debe tener: `date - notifyBeforeMinutes > now()`
-   - Ejemplo: Si son las 16:30, crea tarea para 16:35 con 1 min antes (programa para 16:34)
+  - La tarea debe tener: `date - notifyBeforeMinutes > now()`
+  - Ejemplo: Si son las 16:30, crea tarea para 16:35 con 1 min antes (programa para 16:34)
 
 5. **Ve los logs en tiempo real**:
-   ```bash
-   adb logcat | grep -i "notification"
-   ```
+  ```bash
+  adb logcat | grep -i "notification"
+  ```
 
 ---
 
@@ -232,3 +232,4 @@ R: Entre 1 minuto y 30 días antes de la tarea.
 ---
 
 **¡Ahora ejecuta en Android Studio y prueba las notificaciones! 🚀**
+

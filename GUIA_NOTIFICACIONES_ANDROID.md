@@ -1,12 +1,12 @@
-# 🔔 Guía Completa: Notificaciones en Android
+﻿# Guía Completa: Notificaciones en Android
 
-## 📱 Estado Actual de tu App
+## Estado Actual de tu App
 
 Las notificaciones de tareas próximas a vencer ahora están **totalmente implementadas** usando el plugin `@capacitor/local-notifications` de Capacitor.
 
 ---
 
-## 🚀 Paso 1: Compilar la Aplicación
+## Paso 1: Compilar la Aplicación
 
 ### En una terminal, corre:
 ```bash
@@ -19,7 +19,7 @@ Esto actualizará todos los archivos de la app en el proyecto Android.
 
 ---
 
-## 🔧 Paso 2: Abrir Android Studio
+## Paso 2: Abrir Android Studio
 
 ### Opción A: Desde línea de comandos
 ```bash
@@ -33,7 +33,7 @@ npx cap open android
 
 ---
 
-## ⏳ Paso 3: Esperar a Gradle Sync
+## Paso 3: Esperar a Gradle Sync
 
 Una vez abierto Android Studio:
 - En la parte inferior aparecerá "Gradle sync in progress..."
@@ -42,7 +42,7 @@ Una vez abierto Android Studio:
 
 ---
 
-## 📱 Paso 4: Configurar Emulador o Dispositivo
+## Paso 4: Configurar Emulador o Dispositivo
 
 ### OPCIÓN A: Usar Emulador (Más Fácil para Pruebas)
 
@@ -72,7 +72,7 @@ Una vez abierto Android Studio:
 
 ---
 
-## 🔨 Paso 5: Compilar y Ejecutar
+## Paso 5: Compilar y Ejecutar
 
 ### En Android Studio:
 
@@ -93,7 +93,7 @@ gradlew installDebug
 
 ---
 
-## ✅ Paso 6: Probar Notificaciones
+## Paso 6: Probar Notificaciones
 
 ### Prueba 1: Ver Notificaciones de Prueba (5 segundos)
 
@@ -142,7 +142,7 @@ gradlew installDebug
 
 ---
 
-## 🔍 Debugging: Ver Logs en Consola
+## Debugging: Ver Logs en Consola
 
 ### En Android Studio (Logcat):
 
@@ -167,7 +167,7 @@ I NotificationService: ✅ Se reprogramaron 3 notificaciones
 
 ---
 
-## ⚠️ Si las Notificaciones NO Funcionan
+## Si las Notificaciones NO Funcionan
 
 ### 1. Verifica Permisos:
 ```bash
@@ -201,7 +201,7 @@ adb logcat | grep -i notification
 
 ---
 
-## 📋 Checklist para Produción
+## Checklist para Producción
 
 - [ ] Cambiaste el appId de `io.ionic.starter` a tu ID único
 - [ ] Las notificaciones funcionan en dispositivo físico
@@ -213,7 +213,7 @@ adb logcat | grep -i notification
 
 ---
 
-## 🎯 Cómo Funcionan las Notificaciones
+## Cómo Funcionan las Notificaciones
 
 ```
 Usuario crea tarea:
@@ -232,7 +232,7 @@ Usuario crea tarea:
 
 ---
 
-## 🚀 Funcionalidades Extras Disponibles
+## Funcionalidades Extras Disponibles
 
 ### En tu código TypeScript (si necesitas):
 
@@ -250,7 +250,7 @@ await this.notificationService.cancelAllNotifications();
 
 ---
 
-## 📞 Solución Rápida de Problemas
+## Solución Rápida de Problemas
 
 | Problema | Solución |
 |----------|----------|
@@ -262,7 +262,7 @@ await this.notificationService.cancelAllNotifications();
 
 ---
 
-## 📚 Documentación Oficial
+## Documentación Oficial
 
 - [Capacitor Local Notifications](https://capacitorjs.com/docs/apis/local-notifications)
 - [Android Notifications Developer Guide](https://developer.android.com/develop/ui/views/notifications)
@@ -270,13 +270,14 @@ await this.notificationService.cancelAllNotifications();
 
 ---
 
-## ✨ Conclusión
+## Conclusión
 
 Tu aplicación ahora tiene un sistema completo de notificaciones que:
-- ✅ Funciona en emulador y dispositivos
-- ✅ Programa automáticamente con Capacitor
-- ✅ Se cancela cuando completas tareas
-- ✅ Se reprograma si editas la tarea
-- ✅ Tiene permisos configurados en Android
+- Funciona en emulador y dispositivos
+- Programa automáticamente con Capacitor
+- Se cancela cuando completas tareas
+- Se reprograma si editas la tarea
+- Tiene permisos configurados en Android
 
-**¡Estás listo para probar en dispositivo!** 🎉
+**¡Estás listo para probar en dispositivo!**
+

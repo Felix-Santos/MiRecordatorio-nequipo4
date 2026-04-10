@@ -1,4 +1,4 @@
-# RESUMEN EJECUTIVO - REDUNDANCIAS DE CÓDIGO
+﻿# RESUMEN EJECUTIVO - REDUNDANCIAS DE CÓDIGO
 ## MiRecordatorio (Angular/Ionic)
 
 **Análisis completo disponible en:** [REPORTE_REDUNDANCIAS.md](REPORTE_REDUNDANCIAS.md)
@@ -52,10 +52,10 @@ Crear: src/app/components/notify-input/notify-input.component.ts
 
 Uso:
 <app-notify-input 
-  [unit]="newTask.notifyUnit" 
-  [amount]="newTask.notifyAmount"
-  (unitChange)="newTask.notifyUnit = $event"
-  (amountChange)="newTask.notifyAmount = $event">
+ [unit]="newTask.notifyUnit" 
+ [amount]="newTask.notifyAmount"
+ (unitChange)="newTask.notifyUnit = $event"
+ (amountChange)="newTask.notifyAmount = $event">
 </app-notify-input>
 ```
 
@@ -74,9 +74,9 @@ Crear: src/app/components/app-header/app-header.component.ts
 
 Uso (reemplaza 6 líneas en cada página):
 <app-header 
-  [title]="'PAGE_TITLE_KEY'"
-  [backHref]="'/lista-tareas'"
-  [buttons]="[...buttons array...]">
+ [title]="'PAGE_TITLE_KEY'"
+ [backHref]="'/lista-tareas'"
+ [buttons]="[...buttons array...]">
 </app-header>
 ```
 
@@ -98,9 +98,9 @@ Uso (reemplaza 6 líneas en cada página):
 ```typescript
 // Crear src/app/utils/color.util.ts
 export class ColorUtil {
-  static hexToRgb(hex: string): string | null { ... }
-  static isColorDark(hex: string): boolean { ... }
-  static getComputedPrimaryColor(): string { ... }
+ static hexToRgb(hex: string): string | null { ... }
+ static isColorDark(hex: string): boolean { ... }
+ static getComputedPrimaryColor(): string { ... }
 }
 
 // Usar en lugar de métodos privados
@@ -165,38 +165,38 @@ export class ColorUtil {
 ```typescript
 // src/app/utils/color.util.ts
 export class ColorUtil {
-  static hexToRgb(hex: string): string | null {
-    const h = (hex || '').replace('#', '').trim();
-    if (!h || h.length !== 6) return null;
-    const bigint = parseInt(h, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return `${r},${g},${b}`;
-  }
+ static hexToRgb(hex: string): string | null {
+  const h = (hex || '').replace('#', '').trim();
+  if (!h || h.length !== 6) return null;
+  const bigint = parseInt(h, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r},${g},${b}`;
+ }
 
-  static isColorDark(hex: string): boolean {
-    if (!hex) return false;
-    let h = hex.replace('#', '');
-    if (h.length === 3) h = h.split('').map(s => s + s).join('');
-    const bigint = parseInt(h, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return 0.299 * r + 0.587 * g + 0.114 * b < 128;
-  }
+ static isColorDark(hex: string): boolean {
+  if (!hex) return false;
+  let h = hex.replace('#', '');
+  if (h.length === 3) h = h.split('').map(s => s + s).join('');
+  const bigint = parseInt(h, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return 0.299 * r + 0.587 * g + 0.114 * b < 128;
+ }
 
-  static getComputedPrimaryColor(): string {
-    try {
-      const color = getComputedStyle(document.documentElement)
-        .getPropertyValue('--ion-color-primary').trim();
-      if (!color) return '#0054e9';
-      // ... conversión si es necesario
-      return color;
-    } catch {
-      return '#0054e9';
-    }
+ static getComputedPrimaryColor(): string {
+  try {
+   const color = getComputedStyle(document.documentElement)
+    .getPropertyValue('--ion-color-primary').trim();
+   if (!color) return '#0054e9';
+   // ... conversión si es necesario
+   return color;
+  } catch {
+   return '#0054e9';
   }
+ }
 }
 ```
 
@@ -214,12 +214,12 @@ import { ColorUtil } from './utils/color.util';
 
 ## 📊 BENEFICIOS ESPERADOS
 
-✅ **Mantenibilidad:** -45% tiempo en cambios repetitivos  
-✅ **Consistencia:** Una única fuente de verdad para cada feature  
-✅ **Testing:** Menos casos a probar (servicios compartidos probados una vez)  
-✅ **Performance:** Menos código redundante = bundle más pequeño  
-✅ **Escalabilidad:** Fácil agregar nuevas páginas reutilizando componentes  
-✅ **Deuda técnica:** Eliminada ~500 líneas de código innecesario  
+✅ **Mantenibilidad:** -45% tiempo en cambios repetitivos 
+✅ **Consistencia:** Una única fuente de verdad para cada feature 
+✅ **Testing:** Menos casos a probar (servicios compartidos probados una vez) 
+✅ **Performance:** Menos código redundante = bundle más pequeño 
+✅ **Escalabilidad:** Fácil agregar nuevas páginas reutilizando componentes 
+✅ **Deuda técnica:** Eliminada ~500 líneas de código innecesario 
 
 ---
 
@@ -232,5 +232,6 @@ import { ColorUtil } from './utils/color.util';
 
 ---
 
-**Reporte generado:** 9 de abril de 2026  
+**Reporte generado:** 9 de abril de 2026 
 **Documentación completa:** [REPORTE_REDUNDANCIAS.md](REPORTE_REDUNDANCIAS.md)
+

@@ -1,8 +1,8 @@
-# REPORTE COMPLETO DE REDUNDANCIAS DE CÓDIGO
+﻿# REPORTE COMPLETO DE REDUNDANCIAS DE CÓDIGO
 ## Proyecto: MiRecordatorio (Angular/Ionic)
 
-**Fecha del análisis:** 9 de abril de 2026  
-**Scope:** src/app/ (todos los archivos .ts, .html, .scss)  
+**Fecha del análisis:** 9 de abril de 2026 
+**Scope:** src/app/ (todos los archivos .ts, .html, .scss) 
 **Total de redundancias encontradas:** 18 patrones principales
 
 ---
@@ -35,13 +35,13 @@
 ```typescript
 // Patrón repetido en las 3 páginas
 formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleString(this.locale, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+ return new Date(dateString).toLocaleString(this.locale, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+ });
 }
 ```
 
@@ -67,13 +67,13 @@ formatDate(dateString: string): string {
 **Código duplicado:**
 ```typescript
 private hexToRgb(hex: string): string | null {
-  const h = (hex || '').replace('#', '').trim();
-  if (!h || h.length !== 6) return null;
-  const bigint = parseInt(h, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return `${r},${g},${b}`;
+ const h = (hex || '').replace('#', '').trim();
+ if (!h || h.length !== 6) return null;
+ const bigint = parseInt(h, 16);
+ const r = (bigint >> 16) & 255;
+ const g = (bigint >> 8) & 255;
+ const b = bigint & 255;
+ return `${r},${g},${b}`;
 }
 ```
 
@@ -98,19 +98,19 @@ private hexToRgb(hex: string): string | null {
 **Código:**
 ```typescript
 private isColorDark(hex: string): boolean {
-  if (!hex) return false;
-  let h = hex.replace('#', '');
-  if (h.length === 3) h = h.split('').map(s => s + s).join('');
-  const bigint = parseInt(h, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-  return luminance < 128;
+ if (!hex) return false;
+ let h = hex.replace('#', '');
+ if (h.length === 3) h = h.split('').map(s => s + s).join('');
+ const bigint = parseInt(h, 16);
+ const r = (bigint >> 16) & 255;
+ const g = (bigint >> 8) & 255;
+ const b = bigint & 255;
+ const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+ return luminance < 128;
 }
 ```
 
-**Contexto:** Se usa en `applyCustomTheme()` para determinar si el texto debe ser blanco o negro.  
+**Contexto:** Se usa en `applyCustomTheme()` para determinar si el texto debe ser blanco o negro. 
 **Sugerencia:** Incluir en `ColorUtilService` mencionado en 1.2
 
 ---
@@ -127,11 +127,11 @@ private isColorDark(hex: string): boolean {
 **Código duplicado:**
 ```typescript
 private getNextId(): number {
-  return this.tasks.length > 0 ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
+ return this.tasks.length > 0 ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
 }
 
 private getNextHistoryId(): number {
-  return this.history.length > 0 ? Math.max(...this.history.map(h => h.id)) + 1 : 1;
+ return this.history.length > 0 ? Math.max(...this.history.map(h => h.id)) + 1 : 1;
 }
 ```
 
@@ -155,23 +155,23 @@ private getNextHistoryId(): number {
 **Código duplicado:**
 ```typescript
 private getComputedPrimaryColor(): string {
-  try {
-    const root = getComputedStyle(document.documentElement);
-    let color = root.getPropertyValue('--ion-color-primary').trim();
-    if (!color) return '#0054e9';
-    if (color.startsWith('rgb')) {
-      const nums = color.match(/\d+/g) || [];
-      if (nums.length >= 3) {
-        const hex = '#' + nums.slice(0, 3)
-          .map(n => parseInt(n).toString(16).padStart(2, '0'))
-          .join('');
-        return hex;
-      }
-    }
-    return color;
-  } catch (e) {
-    return '#0054e9';
+ try {
+  const root = getComputedStyle(document.documentElement);
+  let color = root.getPropertyValue('--ion-color-primary').trim();
+  if (!color) return '#0054e9';
+  if (color.startsWith('rgb')) {
+   const nums = color.match(/\d+/g) || [];
+   if (nums.length >= 3) {
+    const hex = '#' + nums.slice(0, 3)
+    .map(n => parseInt(n).toString(16).padStart(2, '0'))
+    .join('');
+    return hex;
+   }
   }
+  return color;
+ } catch (e) {
+  return '#0054e9';
+ }
 }
 ```
 
@@ -195,14 +195,14 @@ private getComputedPrimaryColor(): string {
 **Template duplicado:**
 ```html
 <ion-item>
-  <ion-label position="stacked">{{ 'NEW.NOTIFY_BEFORE_LABEL' | translate }}</ion-label>
-  <div style="display:flex; gap:8px; align-items:center; width:100%;">
-    <ion-select [(ngModel)]="newTask.notifyUnit" ...>
-      <ion-select-option value="hours">{{ 'UNIT.HOURS' | translate }}</ion-select-option>
-      <ion-select-option value="days">{{ 'UNIT.DAYS' | translate }}</ion-select-option>
-    </ion-select>
-    <!-- 20+ líneas idénticas de opciones -->
-  </div>
+ <ion-label position="stacked">{{ 'NEW.NOTIFY_BEFORE_LABEL' | translate }}</ion-label>
+ <div style="display:flex; gap:8px; align-items:center; width:100%;">
+  <ion-select [(ngModel)]="newTask.notifyUnit" ...>
+   <ion-select-option value="hours">{{ 'UNIT.HOURS' | translate }}</ion-select-option>
+   <ion-select-option value="days">{{ 'UNIT.DAYS' | translate }}</ion-select-option>
+  </ion-select>
+  <!-- 20+ líneas idénticas de opciones -->
+ </div>
 </ion-item>
 ```
 
@@ -233,15 +233,15 @@ private getComputedPrimaryColor(): string {
 **Patrón típico:**
 ```html
 <ion-header>
-  <ion-toolbar color="success">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ 'TITLE_KEY' | translate }}</ion-title>
-    <ion-buttons slot="end">
-      <!-- Botones específicos -->
-    </ion-buttons>
-  </ion-toolbar>
+ <ion-toolbar color="success">
+  <ion-buttons slot="start">
+   <ion-back-button defaultHref="/lista-tareas"></ion-back-button>
+  </ion-buttons>
+  <ion-title>{{ 'TITLE_KEY' | translate }}</ion-title>
+  <ion-buttons slot="end">
+   <!-- Botones específicos -->
+  </ion-buttons>
+ </ion-toolbar>
 </ion-header>
 ```
 
@@ -272,9 +272,9 @@ private getComputedPrimaryColor(): string {
 **Template repetido:**
 ```html
 <ion-badge 
-  [color]="task.priority === 'Alta' ? 'danger' : 
-           task.priority === 'Media' ? 'warning' : 'success'">
-  {{ ('PRIORITY.' + (task.priority || '').toUpperCase()) | translate }}
+ [color]="task.priority === 'Alta' ? 'danger' : 
+     task.priority === 'Media' ? 'warning' : 'success'">
+ {{ ('PRIORITY.' + (task.priority || '').toUpperCase()) | translate }}
 </ion-badge>
 ```
 
@@ -300,11 +300,11 @@ private getComputedPrimaryColor(): string {
 **Patrón similar:**
 ```html
 <ng-template #noDeletedTasks>
-  <div class="no-deleted empty-trash">
-    <ion-icon name="trash-outline" class="empty-icon"></ion-icon>
-    <p class="title">{{ 'TRASH.NO_TASKS' | translate }}</p>
-    <p class="muted">{{ 'TRASH.INFO' | translate }}</p>
-  </div>
+ <div class="no-deleted empty-trash">
+  <ion-icon name="trash-outline" class="empty-icon"></ion-icon>
+  <p class="title">{{ 'TRASH.NO_TASKS' | translate }}</p>
+  <p class="muted">{{ 'TRASH.INFO' | translate }}</p>
+ </div>
 </ng-template>
 ```
 
@@ -333,27 +333,27 @@ private getComputedPrimaryColor(): string {
 ```scss
 // papelera.page.scss
 .no-deleted {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 140px);
-  color: var(--ion-text-color, #888);
-  padding: 8px 24px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ height: calc(100vh - 140px);
+ color: var(--ion-text-color, #888);
+ padding: 8px 24px;
 }
 
 // historial.page.scss (variante)
 .no-history {
-  display: block;
-  text-align: center;
-  margin-top: 50px;
+ display: block;
+ text-align: center;
+ margin-top: 50px;
 }
 
 // calendario.page.scss (variante)
 .no-tasks {
-  display: block;
-  text-align: center;
-  margin-top: 30px;
+ display: block;
+ text-align: center;
+ margin-top: 30px;
 }
 ```
 
@@ -365,30 +365,30 @@ private getComputedPrimaryColor(): string {
 ```scss
 // src/app/styles/_empty-state.scss
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  color: var(--ion-text-color, #888);
-  padding: 24px;
-  text-align: center;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ min-height: 200px;
+ color: var(--ion-text-color, #888);
+ padding: 24px;
+ text-align: center;
 
-  .empty-icon {
-    font-size: 48px;
-    opacity: 0.35;
-    margin-bottom: 12px;
-  }
+ .empty-icon {
+  font-size: 48px;
+  opacity: 0.35;
+  margin-bottom: 12px;
+ }
 
-  .title {
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+ .title {
+  font-weight: 600;
+  margin-bottom: 6px;
+ }
 
-  .muted {
-    color: var(--ion-color-medium, #999);
-    max-width: 80%;
-  }
+ .muted {
+  color: var(--ion-color-medium, #999);
+  max-width: 80%;
+ }
 }
 ```
 
@@ -462,8 +462,8 @@ Opción B: Crear componente compartido reutilizable
 **Código duplicado:**
 ```typescript
 languages = [
-  { value: 'es', label: 'Español' },
-  { value: 'en', label: 'Inglés' }  // en settings-modal: 'English'
+ { value: 'es', label: 'Español' },
+ { value: 'en', label: 'Inglés' } // en settings-modal: 'English'
 ];
 ```
 
@@ -488,12 +488,12 @@ languages = [
 **Código duplicado:**
 ```typescript
 themes = [
-  { value: 'default', label: 'Predeterminado' },
-  { value: 'blue', label: 'Azul' },
-  { value: 'green', label: 'Verde' },
-  { value: 'red', label: 'Rojo' },
-  { value: 'dark', label: 'Oscuro' },
-  { value: 'custom', label: 'Personalizado' }
+ { value: 'default', label: 'Predeterminado' },
+ { value: 'blue', label: 'Azul' },
+ { value: 'green', label: 'Verde' },
+ { value: 'red', label: 'Rojo' },
+ { value: 'dark', label: 'Oscuro' },
+ { value: 'custom', label: 'Personalizado' }
 ];
 ```
 
@@ -522,9 +522,9 @@ themes = [
 locale: string = 'es-ES';
 
 constructor(private settings: SettingsService) {
-  this.settings.language$.subscribe(l => 
-    this.locale = l === 'en' ? 'en-US' : 'es-ES'
-  );
+ this.settings.language$.subscribe(l => 
+  this.locale = l === 'en' ? 'en-US' : 'es-ES'
+ );
 }
 ```
 
@@ -539,10 +539,10 @@ constructor(private settings: SettingsService) {
 // src/app/services/locale.service.ts
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
-  locale$ = this.settings.language$.pipe(
-    map(l => l === 'en' ? 'en-US' : 'es-ES')
-  );
-  constructor(private settings: SettingsService) {}
+ locale$ = this.settings.language$.pipe(
+  map(l => l === 'en' ? 'en-US' : 'es-ES')
+ );
+ constructor(private settings: SettingsService) {}
 }
 ```
 
@@ -566,10 +566,10 @@ export class LocaleService {
 **Código:**
 ```typescript
 export interface Task {
-  // ...
-  status: 'Pendiente' | 'Completada';  // String que describe estado
-  completed: boolean;                   // Boolean que describe estado
-  // ...
+ // ...
+ status: 'Pendiente' | 'Completada'; // String que describe estado
+ completed: boolean;        // Boolean que describe estado
+ // ...
 }
 ```
 
@@ -586,14 +586,14 @@ export interface Task {
 Opción A (preferida): Usar solo `completed: boolean`, eliminar `status`
 ```typescript
 export interface Task {
-  id: number;
-  userId: number;
-  title: string;
-  description?: string;
-  date: string;
-  priority: 'Alta' | 'Media' | 'Baja';
-  completed: boolean;  // Única fuente de verdad
-  // ... resto de propiedades
+ id: number;
+ userId: number;
+ title: string;
+ description?: string;
+ date: string;
+ priority: 'Alta' | 'Media' | 'Baja';
+ completed: boolean; // Única fuente de verdad
+ // ... resto de propiedades
 }
 ```
 
@@ -629,14 +629,14 @@ Opción B: Usar computed property (menos viable en interfaz, mejor en clase)
 ```typescript
 // onLogin
 if (!this.loginData.username || !this.loginData.password) {
-  this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
-  return;
+ this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
+ return;
 }
 
 // onRegister
 if (!this.registerData.username || !this.registerData.email || !this.registerData.password) {
-  this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
-  return;
+ this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
+ return;
 }
 ```
 
@@ -644,21 +644,21 @@ if (!this.registerData.username || !this.registerData.email || !this.registerDat
 Crear método helper:
 ```typescript
 private validateLoginForm(data: any, requiredFields: (keyof typeof data)[]): boolean {
-  const isValid = requiredFields.every(field => data[field]?.trim());
-  if (!isValid) {
-    this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
-  }
-  return isValid;
+ const isValid = requiredFields.every(field => data[field]?.trim());
+ if (!isValid) {
+  this.errorMessage = this.translate.translate('LOGIN.FILL_FIELDS_MSG');
+ }
+ return isValid;
 }
 
 onLogin(): void {
-  if (!this.validateLoginForm(this.loginData, ['username', 'password'])) return;
-  // ... rest
+ if (!this.validateLoginForm(this.loginData, ['username', 'password'])) return;
+ // ... rest
 }
 
 onRegister(): void {
-  if (!this.validateLoginForm(this.registerData, ['username', 'email', 'password'])) return;
-  // ... rest
+ if (!this.validateLoginForm(this.registerData, ['username', 'email', 'password'])) return;
+ // ... rest
 }
 ```
 
@@ -678,7 +678,7 @@ onRegister(): void {
 **Código idéntico:**
 ```typescript
 toggleComplete(task: Task): void {
-  this.taskService.toggleComplete(task.id);
+ this.taskService.toggleComplete(task.id);
 }
 ```
 
@@ -763,5 +763,6 @@ toggleComplete(task: Task): void {
 
 **FIN DEL REPORTE**
 
-Generado: 9 de abril de 2026  
+Generado: 9 de abril de 2026 
 Análisis realizado por: GitHub Copilot
+

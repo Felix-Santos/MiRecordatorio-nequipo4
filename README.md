@@ -1,4 +1,4 @@
-
+﻿
  # Mi Recordatorio — Documentación del proyecto
 
  Última actualización: 9 de abril de 2026
@@ -30,7 +30,7 @@
 
  ```bash
  npm install
- npm start      # usa `ng serve` (ver package.json)
+ npm start   # usa `ng serve` (ver package.json)
  ```
 
  Abrir en navegador: `http://localhost:4200`.
@@ -46,7 +46,7 @@
  ```bash
  npm install @capacitor-community/sqlite
  npx cap sync
- npx cap open android   # o ios
+ npx cap open android  # o ios
  ```
 
  ## Persistencia y configuración para producción
@@ -169,7 +169,7 @@
  # instalar plugin sqlite nativo (recomendado)
  npm install @capacitor-community/sqlite
  npx cap sync
- npx cap open android   # o ios
+ npx cap open android  # o ios
  ```
 
  ---
@@ -180,3 +180,4 @@
  - Crear una guía de despliegue paso a paso para Android/iOS (incluyendo permisos y configuración SQLite).
 
  Dime qué prefieres que haga a continuación.
+

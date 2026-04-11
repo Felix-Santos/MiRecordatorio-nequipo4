@@ -1,7 +1,7 @@
 ﻿
  # Mi Recordatorio — Documentación del proyecto
 
- Última actualización: 9 de abril de 2026
+ Última actualización: 10 de abril de 2026
 
  ## Resumen
 
@@ -174,10 +174,5 @@
 
  ---
 
- Si quieres, puedo:
- - Añadir un archivo `docs/ARCHITECTURE.md` con diagramas y flujos.
- - Generar comentarios en línea más detallados para cada archivo del `src/app/services`.
- - Crear una guía de despliegue paso a paso para Android/iOS (incluyendo permisos y configuración SQLite).
-
- Dime qué prefieres que haga a continuación.
+ 
 
